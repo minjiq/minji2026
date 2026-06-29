@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>앰배서더 모바일 와이어프레임</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#e8e5e0;font-family:-apple-system,'Pretendard','Apple SD Gothic Neo',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:24px 16px}
+
+/* top nav */
+.top-nav{display:flex;gap:8px;margin-bottom:24px;background:#fff;border-radius:20px;padding:6px;box-shadow:0 2px 12px rgba(0,0,0,0.1);flex-wrap:wrap;justify-content:center;max-width:560px}
+.nav-btn{padding:9px 18px;border-radius:14px;font-size:13px;font-weight:600;cursor:pointer;border:none;background:transparent;color:#888;transition:.15s}
+.nav-btn.active{background:#c9923a;color:#fff}
+
+/* screen */
+.screen-wrap{display:none}
+.screen-wrap.active{display:block}
+
+/* phone */
+.phone{width:390px;border:3px solid #222;border-radius:50px;overflow:hidden;background:#fafaf8;box-shadow:0 20px 60px rgba(0,0,0,0.25);position:relative}
+
+/* sub-tabs */
+.sub-tabs{display:flex;gap:6px;margin-bottom:16px;justify-content:center;flex-wrap:wrap;max-width:420px}
+.sub-tab{padding:7px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;border:1.5px solid #ddd;background:#fff;color:#888;transition:.15s}
+.sub-tab.active{border-color:#c9923a;background:#c9923a;color:#fff}
+
+/* common */
+.status{background:#fff;padding:14px 28px 6px;display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:600}
+.img-box{background:#d4c9b0;display:flex;align-items:center;justify-content:center;color:#a09070;font-size:13px}
+.chip{background:#f0ece3;border:1px solid #ddd5be;border-radius:20px;padding:5px 12px;font-size:12px;color:#5a4d36;display:inline-block}
+.gold-btn{background:#c9923a;color:#fff;border-radius:14px;padding:16px;text-align:center;font-size:15px;font-weight:600;width:100%;cursor:pointer}
+.outline-btn{background:#fff;border:1.5px solid #c9923a;color:#c9923a;border-radius:12px;padding:10px;text-align:center;font-size:13px;font-weight:500}
+.divider{height:1px;background:#e8e3d8;margin:0 -16px}
+.card{background:#fff;border-radius:14px;border:1px solid #e8e3d8;padding:16px;margin-bottom:12px}
+.row{display:flex;justify-content:space-between;align-items:center;padding:8px 0}
+.tag{background:#f5f0e6;border-radius:20px;padding:4px 10px;font-size:12px;color:#7a6340;display:inline-block;margin-right:4px}
+.toggle{width:50px;height:28px;background:#c9923a;border-radius:14px;position:relative;flex-shrink:0}
+.toggle::after{content:'';width:22px;height:22px;background:#fff;border-radius:50%;position:absolute;top:3px;right:3px}
+.toggle.off{background:#ddd}
+.toggle.off::after{right:auto;left:3px}
+.radio-sel{width:22px;height:22px;border-radius:50%;border:2px solid #c9923a;background:#c9923a;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.radio-sel::after{content:'';width:9px;height:9px;background:#fff;border-radius:50%}
+.radio-empty{width:22px;height:22px;border-radius:50%;border:2px solid #bbb;flex-shrink:0}
+.bnav{background:#fff;border-top:1px solid #e8e3d8;padding:10px 0 16px;display:flex}
+.bnav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;color:#999}
+.bnav-item.act{color:#c9923a}
+.bnav-center{flex:1;display:flex;justify-content:center}
+.bnav-circle{width:56px;height:56px;background:#c9923a;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11px;color:#fff;margin-top:-22px;gap:2px}
+.header{background:#fff;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #e8e3d8}
+.header-title{font-size:17px;font-weight:600;color:#1a1a1a;text-align:center;flex:1}
+.tab-bar{display:flex;border-bottom:2px solid #e8e3d8;background:#fff}
+.tab{flex:1;padding:13px 0;text-align:center;font-size:14px;color:#888;cursor:pointer}
+.tab.act{color:#c9923a;border-bottom:2px solid #c9923a;font-weight:600;margin-bottom:-2px}
+.scrn-pad{padding:16px}
+.hotel-card{background:#fff;border-radius:14px;overflow:hidden;margin-bottom:12px;border:1px solid #e8e3d8}
+.savings-pill{background:#f5ede0;border-radius:20px;padding:6px 16px;text-align:center;font-size:13px;color:#c9923a;margin:8px 0;display:block;width:100%}
+.option-row{display:flex;align-items:flex-start;gap:14px;padding:16px 0;border-bottom:1px solid #e8e3d8}
+.option-icon{width:42px;height:42px;background:#f0ece3;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#888;font-size:20px}
+.purpose-chip{background:#fff;border:1.5px solid #e8e3d8;border-radius:20px;padding:8px 14px;font-size:13px;font-weight:500;color:#555;display:inline-flex;align-items:center;gap:5px;white-space:nowrap;flex-shrink:0}
+.purpose-chip.sel{border-color:#c9923a;background:#fdf6ee;color:#c9923a}
+.hero-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.45);cursor:pointer;transition:all 0.3s}
+.hero-dot.active{width:18px;border-radius:4px;background:#fff}
+.s-field{transition:border-color 0.2s,box-shadow 0.2s}
+.s-field.active-field{border-color:#1a1a1a !important;box-shadow:0 2px 12px rgba(0,0,0,0.1)}
+.s-tab{transition:color 0.2s,border-color 0.2s}
+</style>
+</head>
+<body>
+
+<div class="top-nav">
+  <button class="nav-btn active" onclick="show('home',this)">홈</button>
+  <button class="nav-btn" onclick="show('search',this)">탐색</button>
+  <button class="nav-btn" onclick="show('reservation',this)">예약 · 결제</button>
+  <button class="nav-btn" onclick="show('dining',this)">다이닝</button>
+  <button class="nav-btn" onclick="show('eshop',this)">이샵</button>
+  <button class="nav-btn" onclick="show('mypage',this)">마이페이지</button>
+</div>
+
+<!-- ========== HOME ========== -->
+<div class="screen-wrap active" id="home">
+<div class="phone">
+  <!-- 상태바 (2줄) -->
+  <div style="background:#fff;padding:12px 20px 0">
+    <!-- 1줄: 시간 + 시스템 아이콘 -->
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <span style="font-size:13px;font-weight:600">9:41</span>
+      <div style="display:flex;align-items:center;gap:8px">
+        <i class="ti ti-wifi" style="font-size:14px;color:#333"></i>
+        <i class="ti ti-battery" style="font-size:14px;color:#333"></i>
+      </div>
+    </div>
+    <!-- 2줄: 멤버 등급 뱃지 (우측 정렬) -->
+    <div style="padding-bottom:10px;display:flex;justify-content:flex-end">
+      <div style="display:inline-flex;background:#1a1a14;border-radius:20px;padding:4px 12px;align-items:center;gap:5px">
+        <i class="ti ti-crown" style="font-size:12px;color:#c9923a"></i>
+        <span style="font-size:12px;color:#d4a855;font-weight:600">홍길동 GOLD</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 히어로 롤링 배너 -->
+  <div style="position:relative;overflow:hidden" id="hero-banner">
+    <!-- 슬라이드 트랙 -->
+    <div id="hero-track" style="display:flex;transition:transform 0.5s ease">
+      <!-- 슬라이드 1: 여름 패키지 -->
+      <div style="min-width:100%;position:relative">
+        <div class="img-box" style="height:220px">이미지</div>
+        <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.72));padding:50px 18px 18px">
+          <div style="display:inline-block;background:#c9923a;border-radius:4px;padding:2px 8px;font-size:11px;color:#fff;font-weight:600;margin-bottom:6px">공식채널 독점</div>
+          <div style="font-size:21px;font-weight:700;color:#fff;line-height:1.35;margin-bottom:4px">여름 특가 패키지<br>최대 30% 할인</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.85)">7월 한정 · 그랜드 앰배서더 서울 풀만</div>
+        </div>
+      </div>
+      <!-- 슬라이드 2: 멤버십 혜택 -->
+      <div style="min-width:100%;position:relative">
+        <div class="img-box" style="height:220px">이미지</div>
+        <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.72));padding:50px 18px 18px">
+          <div style="display:inline-block;background:#7c5c2e;border-radius:4px;padding:2px 8px;font-size:11px;color:#fff;font-weight:600;margin-bottom:6px">GOLD 회원 전용</div>
+          <div style="font-size:21px;font-weight:700;color:#fff;line-height:1.35;margin-bottom:4px">포인트 2배 적립<br>주말 숙박 혜택</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.85)">공식 채널 예약 시 GOLD 전 호텔 적용</div>
+        </div>
+      </div>
+      <!-- 슬라이드 3: 다이닝 프로모션 -->
+      <div style="min-width:100%;position:relative">
+        <div class="img-box" style="height:220px">이미지</div>
+        <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.72));padding:50px 18px 18px">
+          <div style="display:inline-block;background:#c9923a;border-radius:4px;padding:2px 8px;font-size:11px;color:#fff;font-weight:600;margin-bottom:6px">NEW</div>
+          <div style="font-size:21px;font-weight:700;color:#fff;line-height:1.35;margin-bottom:4px">미쉐린 셰프의<br>시그니처 다이닝</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.85)">르 뚜르 · 노보텔 강남 아리아 · 예약 오픈</div>
+        </div>
+      </div>
+      <!-- 슬라이드 4: 스파·웰니스 -->
+      <div style="min-width:100%;position:relative">
+        <div class="img-box" style="height:220px">이미지</div>
+        <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.72));padding:50px 18px 18px">
+          <div style="display:inline-block;background:#3a6b5c;border-radius:4px;padding:2px 8px;font-size:11px;color:#fff;font-weight:600;margin-bottom:6px">스파·웰니스</div>
+          <div style="font-size:21px;font-weight:700;color:#fff;line-height:1.35;margin-bottom:4px">도심 속 완전한 휴식<br>스파 패키지</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.85)">객실 + 스파 90분 · 얼리버드 20% 할인</div>
+        </div>
+      </div>
+    </div>
+    <!-- 인디케이터 -->
+    <div id="hero-dots" style="position:absolute;bottom:10px;right:16px;display:flex;gap:5px;align-items:center">
+      <div class="hero-dot active" onclick="goSlide(0)"></div>
+      <div class="hero-dot" onclick="goSlide(1)"></div>
+      <div class="hero-dot" onclick="goSlide(2)"></div>
+      <div class="hero-dot" onclick="goSlide(3)"></div>
+    </div>
+    <!-- 슬라이드 번호 -->
+    <div style="position:absolute;bottom:12px;left:16px;font-size:11px;color:rgba(255,255,255,0.7)"><span id="hero-cur">1</span> / 4</div>
+  </div>
+
+  <!-- ① 검색 pill (compact) -->
+  <div style="padding:12px 16px 0" onclick="openSearch()">
+    <div style="display:flex;align-items:center;gap:12px;background:#fff;border:1.5px solid #e8e3d8;border-radius:50px;padding:11px 16px;box-shadow:0 2px 10px rgba(0,0,0,0.08);cursor:pointer">
+      <i class="ti ti-search" style="color:#c9923a;font-size:18px;flex-shrink:0"></i>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:13px;font-weight:600;color:#1a1a1a">어디로 가세요?</div>
+        <div style="font-size:11px;color:#aaa;margin-top:1px">날짜 미정 · 인원 미정</div>
+      </div>
+      <div style="width:32px;height:32px;border:1px solid #e8e3d8;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <i class="ti ti-adjustments-horizontal" style="font-size:15px;color:#555"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- 검색 오버레이 -->
+  <div id="search-overlay" style="position:absolute;inset:0;z-index:200;pointer-events:none;opacity:0;transition:opacity 0.25s">
+    <!-- 딤 배경 -->
+    <div style="position:absolute;inset:0;background:rgba(0,0,0,0.35)" onclick="closeSearch()"></div>
+    <!-- 패널 -->
+    <div id="search-panel" style="position:absolute;top:0;left:0;right:0;background:#fff;border-radius:0 0 28px 28px;padding:16px 16px 20px;transition:transform 0.35s cubic-bezier(0.22,1,0.36,1);transform:translateY(-12px);box-shadow:0 8px 40px rgba(0,0,0,0.18)">
+      <!-- 헤더 -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
+        <button onclick="closeSearch()" style="width:32px;height:32px;border:none;background:none;font-size:20px;color:#333;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0"><i class="ti ti-x"></i></button>
+        <div style="font-size:14px;font-weight:700;color:#1a1a1a">숙소 검색</div>
+        <div style="width:32px"></div>
+      </div>
+
+      <!-- 탭 -->
+      <div style="display:flex;gap:0;border-bottom:1px solid #e8e3d8;margin-bottom:16px">
+        <div class="s-tab active" id="stab-stay" onclick="switchSTab('stay',this)" style="padding:8px 16px;font-size:13px;font-weight:600;color:#1a1a1a;border-bottom:2px solid #1a1a1a;cursor:pointer;margin-bottom:-1px">숙소</div>
+        <div class="s-tab" id="stab-dining" onclick="switchSTab('dining',this)" style="padding:8px 16px;font-size:13px;font-weight:500;color:#aaa;border-bottom:2px solid transparent;cursor:pointer;margin-bottom:-1px">다이닝</div>
+        <div class="s-tab" id="stab-package" onclick="switchSTab('package',this)" style="padding:8px 16px;font-size:13px;font-weight:500;color:#aaa;border-bottom:2px solid transparent;cursor:pointer;margin-bottom:-1px">패키지</div>
+      </div>
+
+      <!-- 지역/호텔 -->
+      <div id="sf-where" class="s-field active-field" onclick="activateField('where')" style="border:1.5px solid #1a1a1a;border-radius:16px;padding:14px 16px;margin-bottom:10px;cursor:pointer;transition:all 0.2s">
+        <div style="font-size:11px;font-weight:700;color:#1a1a1a;margin-bottom:4px">어디로</div>
+        <div style="font-size:14px;color:#555">지역 또는 호텔명 검색</div>
+        <!-- 빠른 선택 (지역 오픈 시) -->
+        <div id="sf-where-body" style="margin-top:12px">
+          <div style="font-size:12px;font-weight:600;color:#888;margin-bottom:8px">빠른 선택</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <div style="border:1px solid #e8e3d8;border-radius:20px;padding:6px 14px;font-size:13px;color:#333;cursor:pointer">서울</div>
+            <div style="border:1px solid #e8e3d8;border-radius:20px;padding:6px 14px;font-size:13px;color:#333;cursor:pointer">부산</div>
+            <div style="border:1px solid #e8e3d8;border-radius:20px;padding:6px 14px;font-size:13px;color:#333;cursor:pointer">제주</div>
+            <div style="border:1px solid #e8e3d8;border-radius:20px;padding:6px 14px;font-size:13px;color:#333;cursor:pointer">인천</div>
+            <div style="border:1px solid #e8e3d8;border-radius:20px;padding:6px 14px;font-size:13px;color:#333;cursor:pointer">경주</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 날짜 -->
+      <div id="sf-date" class="s-field" onclick="activateField('date')" style="border:1.5px solid #e8e3d8;border-radius:16px;padding:14px 16px;margin-bottom:10px;cursor:pointer;transition:all 0.2s">
+        <div style="font-size:11px;font-weight:700;color:#1a1a1a;margin-bottom:4px">날짜</div>
+        <div style="font-size:14px;color:#aaa">체크인 · 체크아웃</div>
+        <div id="sf-date-body" style="display:none;margin-top:12px">
+          <div style="display:flex;gap:8px">
+            <div style="flex:1;background:#f7f5f2;border-radius:12px;padding:12px;text-align:center">
+              <div style="font-size:11px;color:#888;margin-bottom:2px">체크인</div>
+              <div style="font-size:15px;font-weight:600;color:#1a1a1a">날짜 선택</div>
+            </div>
+            <div style="flex:1;background:#f7f5f2;border-radius:12px;padding:12px;text-align:center">
+              <div style="font-size:11px;color:#888;margin-bottom:2px">체크아웃</div>
+              <div style="font-size:15px;font-weight:600;color:#1a1a1a">날짜 선택</div>
+            </div>
+          </div>
+          <div style="margin-top:10px;text-align:center;font-size:12px;color:#c9923a;font-weight:500">달력 UI (실제 구현)</div>
+        </div>
+      </div>
+
+      <!-- 인원 -->
+      <div id="sf-guest" class="s-field" onclick="activateField('guest')" style="border:1.5px solid #e8e3d8;border-radius:16px;padding:14px 16px;margin-bottom:16px;cursor:pointer;transition:all 0.2s">
+        <div style="font-size:11px;font-weight:700;color:#1a1a1a;margin-bottom:4px">인원</div>
+        <div style="font-size:14px;color:#aaa">게스트 추가</div>
+        <div id="sf-guest-body" style="display:none;margin-top:12px;display:none">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f0ede8">
+            <div><div style="font-size:13px;font-weight:600">성인</div><div style="font-size:11px;color:#888">만 13세 이상</div></div>
+            <div style="display:flex;align-items:center;gap:14px">
+              <div style="width:28px;height:28px;border:1px solid #ccc;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;color:#555;cursor:pointer">−</div>
+              <div style="font-size:15px;font-weight:600;min-width:16px;text-align:center">2</div>
+              <div style="width:28px;height:28px;border:1px solid #ccc;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;color:#555;cursor:pointer">+</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0">
+            <div><div style="font-size:13px;font-weight:600">아동</div><div style="font-size:11px;color:#888">만 12세 이하</div></div>
+            <div style="display:flex;align-items:center;gap:14px">
+              <div style="width:28px;height:28px;border:1px solid #ccc;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;color:#555;cursor:pointer">−</div>
+              <div style="font-size:15px;font-weight:600;min-width:16px;text-align:center">0</div>
+              <div style="width:28px;height:28px;border:1px solid #ccc;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;color:#555;cursor:pointer">+</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 검색 버튼 -->
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <button onclick="closeSearch()" style="background:none;border:none;font-size:13px;color:#555;text-decoration:underline;cursor:pointer">지우기</button>
+        <div class="gold-btn" style="width:auto;padding:0 28px" onclick="closeSearch()"><i class="ti ti-search" style="font-size:14px"></i> &nbsp;혜택 보고 검색하기</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ② 목적 chips -->
+  <div style="padding:14px 16px 10px">
+    <div style="font-size:12px;color:#888;margin-bottom:8px;font-weight:500">목적으로 시작하기</div>
+    <div style="display:flex;gap:8px;overflow-x:auto;padding-bottom:2px">
+      <div class="purpose-chip sel" onclick="selectPurpose('기념일',this)"><i class="ti ti-hearts" style="font-size:14px"></i>기념일</div>
+      <div class="purpose-chip" onclick="selectPurpose('가족여행',this)"><i class="ti ti-friends" style="font-size:14px"></i>가족여행</div>
+      <div class="purpose-chip" onclick="selectPurpose('미식',this)"><i class="ti ti-tools-kitchen-2" style="font-size:14px"></i>미식</div>
+      <div class="purpose-chip" onclick="selectPurpose('워케이션',this)"><i class="ti ti-briefcase" style="font-size:14px"></i>워케이션</div>
+      <div class="purpose-chip" onclick="selectPurpose('출장',this)"><i class="ti ti-plane" style="font-size:14px"></i>출장</div>
+    </div>
+  </div>
+
+  <div class="scrn-pad" style="padding-top:4px">
+    <!-- 포인트 소멸 위젯 -->
+    <div style="background:#fffbf5;border:1.5px solid #f0d9b4;border-radius:14px;padding:12px 16px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between">
+      <div style="display:flex;align-items:center;gap:10px">
+        <i class="ti ti-coin" style="font-size:22px;color:#c9923a"></i>
+        <div>
+          <div style="font-size:13px;font-weight:600;color:#1a1a1a">보유 포인트 12,400 P</div>
+          <div style="font-size:12px;color:#e05a2b;margin-top:1px"><i class="ti ti-alert-circle" style="font-size:12px"></i> 2,000P 60일 내 소멸 예정</div>
+        </div>
+      </div>
+      <div style="font-size:12px;color:#c9923a;font-weight:500">사용하기 →</div>
+    </div>
+
+    <div class="divider" style="margin-bottom:16px"></div>
+
+    <!-- ③ 목적별 동적 콘텐츠 -->
+    <div id="purpose-section-title" style="font-size:16px;font-weight:600;color:#1a1a1a;margin-bottom:12px">기념일 추천 패키지</div>
+    <div id="purpose-content"></div>
+
+    <!-- 최근 본 숙소 (FNR 2-4) -->
+    <div class="divider" style="margin-bottom:16px"></div>
+    <div style="font-size:16px;font-weight:600;color:#1a1a1a;margin-bottom:12px">최근 본 숙소</div>
+    <div style="display:flex;gap:10px;overflow-x:auto;padding-bottom:4px">
+      <div style="flex-shrink:0;width:140px;background:#fff;border-radius:12px;overflow:hidden;border:1px solid #e8e3d8">
+        <div class="img-box" style="height:80px;font-size:12px">이미지</div>
+        <div style="padding:10px">
+          <div style="font-size:12px;font-weight:600;color:#1a1a1a;margin-bottom:3px">그랜드 앰배서더</div>
+          <div style="font-size:12px;color:#c9923a;font-weight:700">289,000원~</div>
+        </div>
+      </div>
+      <div style="flex-shrink:0;width:140px;background:#fff;border-radius:12px;overflow:hidden;border:1px solid #e8e3d8">
+        <div class="img-box" style="height:80px;font-size:12px">이미지</div>
+        <div style="padding:10px">
+          <div style="font-size:12px;font-weight:600;color:#1a1a1a;margin-bottom:3px">노보텔 강남</div>
+          <div style="font-size:12px;color:#c9923a;font-weight:700">195,000원~</div>
+        </div>
+      </div>
+      <div style="flex-shrink:0;width:140px;background:#fff;border-radius:12px;overflow:hidden;border:1px solid #e8e3d8">
+        <div class="img-box" style="height:80px;font-size:12px">이미지</div>
+        <div style="padding:10px">
+          <div style="font-size:12px;font-weight:600;color:#1a1a1a;margin-bottom:3px">이비스 인천</div>
+          <div style="font-size:12px;color:#c9923a;font-weight:700">132,600원~</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bnav">
+    <div class="bnav-item act"><i class="ti ti-home" style="font-size:24px"></i>홈</div>
+    <div class="bnav-item"><i class="ti ti-search" style="font-size:24px"></i>탐색</div>
+    <div class="bnav-center"><div class="bnav-circle"><i class="ti ti-calendar" style="font-size:22px"></i>예약</div></div>
+    <div class="bnav-item"><i class="ti ti-shopping-bag" style="font-size:24px"></i>이샵</div>
+    <div class="bnav-item"><i class="ti ti-user" style="font-size:24px"></i>MY</div>
+  </div>
+</div>
+</div>
+
+<!-- ========== 탐색 / 검색 결과 (FNR-03) ========== -->
+<div class="screen-wrap" id="search">
+<div class="phone">
+  <div class="status"><span>9:41</span><span style="display:flex;gap:6px"><i class="ti ti-wifi"></i><i class="ti ti-battery"></i></span></div>
+  <!-- 검색 헤더 (Sticky) -->
+  <div style="background:#fff;padding:10px 14px;border-bottom:1px solid #e8e3d8">
+    <div style="background:#f5f0e8;border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:10px;margin-bottom:10px">
+      <i class="ti ti-search" style="font-size:18px;color:#c9923a;flex-shrink:0"></i>
+      <div style="flex:1">
+        <div style="font-size:14px;font-weight:600;color:#1a1a1a">서울 전체</div>
+        <div style="font-size:12px;color:#888">6.20(금) - 6.21(토) · 성인 2, 아동 1</div>
+      </div>
+      <i class="ti ti-edit" style="font-size:16px;color:#c9923a"></i>
+    </div>
+    <!-- 목적 필터 태그 -->
+    <div style="display:flex;gap:6px;overflow-x:auto;padding-bottom:2px">
+      <div style="background:#1a1a14;color:#fff;border-radius:20px;padding:5px 12px;font-size:12px;font-weight:600;white-space:nowrap;flex-shrink:0">가족·영유아</div>
+      <div style="background:#fff;border:1px solid #ddd;color:#888;border-radius:20px;padding:5px 12px;font-size:12px;white-space:nowrap;flex-shrink:0"><i class="ti ti-swimming-pool" style="font-size:12px"></i> 키즈풀</div>
+      <div style="background:#fff;border:1px solid #ddd;color:#888;border-radius:20px;padding:5px 12px;font-size:12px;white-space:nowrap;flex-shrink:0">조식 포함</div>
+      <div style="background:#fff;border:1px solid #ddd;color:#888;border-radius:20px;padding:5px 12px;font-size:12px;white-space:nowrap;flex-shrink:0">수영장</div>
+      <div style="background:#fff;border:1px solid #c9923a;color:#c9923a;border-radius:20px;padding:5px 12px;font-size:12px;white-space:nowrap;flex-shrink:0;display:flex;align-items:center;gap:4px"><i class="ti ti-adjustments-horizontal" style="font-size:12px"></i>필터</div>
+    </div>
+  </div>
+  <!-- 정렬 + 결과 수 -->
+  <div style="background:#fff;padding:8px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #e8e3d8">
+    <span style="font-size:13px;color:#888">호텔 <b style="color:#1a1a1a">12</b>개</span>
+    <div style="display:flex;align-items:center;gap:6px;font-size:13px;color:#555">
+      <i class="ti ti-arrows-sort" style="font-size:14px"></i>추천순
+    </div>
+  </div>
+  <div class="scrn-pad" style="padding-top:14px">
+    <!-- 검색결과 카드 1 (전 브랜드 횡단 + 회원가) -->
+    <div class="hotel-card">
+      <div class="img-box" style="height:130px">이미지</div>
+      <div style="padding:14px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
+          <div>
+            <div style="font-size:12px;color:#888;margin-bottom:3px">노보텔 · 서울강남</div>
+            <div style="font-size:15px;font-weight:600;color:#1a1a1a">노보텔 앰배서더 강남</div>
+          </div>
+          <div style="width:32px;height:32px;border:1px solid #e8e3d8;border-radius:50%;display:flex;align-items:center;justify-content:center"><i class="ti ti-heart" style="font-size:16px;color:#bbb"></i></div>
+        </div>
+        <div style="margin-bottom:8px">
+          <div class="tag">키즈풀</div><div class="tag">조식 영유아 옵션</div>
+        </div>
+        <div style="background:#f0f9f0;border-radius:8px;padding:6px 10px;margin-bottom:10px;font-size:12px;color:#4a9a6a"><i class="ti ti-check" style="font-size:12px"></i> 가족·영유아 맞춤 서비스 제공</div>
+        <div style="display:flex;justify-content:space-between;align-items:flex-end">
+          <div>
+            <span style="font-size:11px;color:#bbb;text-decoration:line-through">230,000원</span>
+            <span style="background:#f5ede0;border-radius:5px;padding:1px 6px;font-size:11px;color:#c9923a;font-weight:600;margin-left:5px">-15% GOLD</span>
+            <div style="font-size:18px;font-weight:700;color:#c9923a">195,000원~</div>
+          </div>
+          <div class="gold-btn" style="width:auto;padding:10px 18px;font-size:13px">선택</div>
+        </div>
+      </div>
+    </div>
+    <!-- 검색결과 카드 2 -->
+    <div class="hotel-card">
+      <div style="position:relative">
+        <div class="img-box" style="height:120px">이미지</div>
+        <div style="position:absolute;top:8px;left:8px;background:rgba(0,0,0,0.75);border-radius:8px;padding:4px 10px;display:flex;align-items:center;gap:5px">
+          <i class="ti ti-clock" style="font-size:12px;color:#f87171"></i>
+          <span style="font-size:11px;color:#fff;font-weight:600">마감 01:22:05</span>
+        </div>
+        <div style="position:absolute;top:8px;right:8px;background:#e05a2b;border-radius:6px;padding:3px 8px;font-size:11px;color:#fff;font-weight:600">잔여 1실</div>
+      </div>
+      <div style="padding:14px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
+          <div>
+            <div style="font-size:12px;color:#888;margin-bottom:3px">풀만 · 서울용산</div>
+            <div style="font-size:15px;font-weight:600;color:#1a1a1a">그랜드 앰배서더 서울 풀만</div>
+          </div>
+          <div style="width:32px;height:32px;border:1px solid #e8e3d8;border-radius:50%;display:flex;align-items:center;justify-content:center"><i class="ti ti-heart" style="font-size:16px;color:#e05a2b"></i></div>
+        </div>
+        <div style="margin-bottom:10px"><div class="tag">키즈풀</div><div class="tag">패밀리룸</div><div class="tag">조식 포함</div></div>
+        <div style="display:flex;justify-content:space-between;align-items:flex-end">
+          <div>
+            <span style="font-size:11px;color:#bbb;text-decoration:line-through">340,000원</span>
+            <span style="background:#f5ede0;border-radius:5px;padding:1px 6px;font-size:11px;color:#c9923a;font-weight:600;margin-left:5px">-15% GOLD</span>
+            <div style="font-size:18px;font-weight:700;color:#c9923a">289,000원~</div>
+          </div>
+          <div class="gold-btn" style="width:auto;padding:10px 18px;font-size:13px">선택</div>
+        </div>
+      </div>
+    </div>
+    <!-- 검색결과 카드 3 -->
+    <div class="hotel-card">
+      <div class="img-box" style="height:110px">이미지</div>
+      <div style="padding:14px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
+          <div>
+            <div style="font-size:12px;color:#888;margin-bottom:3px">이비스 · 인천</div>
+            <div style="font-size:15px;font-weight:600;color:#1a1a1a">이비스 앰배서더 인천</div>
+          </div>
+          <div style="width:32px;height:32px;border:1px solid #e8e3d8;border-radius:50%;display:flex;align-items:center;justify-content:center"><i class="ti ti-heart" style="font-size:16px;color:#bbb"></i></div>
+        </div>
+        <div style="margin-bottom:10px"><div class="tag">패밀리</div><div class="tag">공항 근접</div></div>
+        <div style="display:flex;justify-content:space-between;align-items:flex-end">
+          <div>
+            <span style="font-size:11px;color:#bbb;text-decoration:line-through">156,000원</span>
+            <span style="background:#f5ede0;border-radius:5px;padding:1px 6px;font-size:11px;color:#c9923a;font-weight:600;margin-left:5px">-15% GOLD</span>
+            <div style="font-size:18px;font-weight:700;color:#c9923a">132,600원~</div>
+          </div>
+          <div class="gold-btn" style="width:auto;padding:10px 18px;font-size:13px">선택</div>
+        </div>
+      </div>
+    </div>
+    <!-- 지도뷰 버튼 (FNR 3-5) -->
+    <div style="position:sticky;bottom:80px;display:flex;justify-content:center;margin-top:-10px;margin-bottom:8px">
+      <div style="background:#1a1a14;color:#fff;border-radius:24px;padding:12px 22px;font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px;box-shadow:0 4px 16px rgba(0,0,0,0.25)">
+        <i class="ti ti-map-2" style="font-size:18px;color:#c9923a"></i>지도로 보기
+      </div>
+    </div>
+  </div>
+  <div class="bnav">
+    <div class="bnav-item"><i class="ti ti-home" style="font-size:24px"></i>홈</div>
+    <div class="bnav-item act"><i class="ti ti-search" style="font-size:24px"></i>탐색</div>
+    <div class="bnav-center"><div class="bnav-circle"><i class="ti ti-calendar" style="font-size:22px"></i>예약</div></div>
+    <div class="bnav-item"><i class="ti ti-shopping-bag" style="font-size:24px"></i>이샵</div>
+    <div class="bnav-item"><i class="ti ti-user" style="font-size:24px"></i>MY</div>
+  </div>
+</div>
+</div>
+
+<!-- ========== RESERVATION / PAYMENT ========== -->
+<div class="screen-wrap" id="reservation">
+<div class="sub-tabs">
+  <button class="sub-tab active" onclick="showSub('r-hotel',this)">호텔 상세</button>
+  <button class="sub-tab" onclick="showSub('r-option',this)">옵션 추가</button>
+  <button class="sub-tab" onclick="showSub('r-benefit',this)">회원 혜택</button>
+  <button class="sub-tab" onclick="showSub('r-pay',this)">결제</button>
+  <button class="sub-tab" onclick="showSub('r-done',this)">예약 완료</button>
+</div>
+
+<!-- 호텔 상세 -->
+<div class="sub-screen" id="r-hotel">
+<div class="phone">
+  <div style="position:relative">
+    <div style="background:#111;padding:14px 28px 6px;display:flex;justify-content:space-between;font-size:13px;font-weight:600;color:#fff;position:absolute;top:0;left:0;right:0;z-index:2"><span>9:41</span><span style="display:flex;gap:6px"><i class="ti ti-wifi"></i><i class="ti ti-battery"></i></span></div>
+    <div class="img-box" style="height:260px;padding-top:44px">이미지</div>
+    <div style="position:absolute;top:50px;left:14px;width:40px;height:40px;background:rgba(0,0,0,0.4);border-radius:50%;display:flex;align-items:center;justify-content:center"><i class="ti ti-arrow-left" style="font-size:18px;color:#fff"></i></div>
+    <div style="position:absolute;top:50px;right:14px;width:40px;height:40px;background:rgba(0,0,0,0.4);border-radius:50%;display:flex;align-items:center;justify-content:center"><i class="ti ti-heart" style="font-size:18px;color:#fff"></i></div>
+  </div>
+  <div class="scrn-pad">
+    <div style="font-size:20px;font-weight:700;color:#1a1a1a;margin-bottom:8px">그랜드 앰배서더 서울 풀만</div>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px"><div class="tag">서울·용산</div><span style="font-size:13px;color:#888">4.8 ★</span></div>
+    <div class="tab-bar" style="margin:0 -16px 16px">
+      <div class="tab">객실</div><div class="tab act">패키지</div><div class="tab">다이닝</div>
+    </div>
+
+    <!-- 자사 채널 독점 배지 (제안서: 자사 채널 독점 옵션) -->
+    <div style="background:#1a1a14;border-radius:10px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;gap:10px">
+      <i class="ti ti-lock" style="font-size:16px;color:#c9923a;flex-shrink:0"></i>
+      <div style="font-size:12px;color:#bbb">공식 채널 독점 · <span style="color:#d4a855">룸뷰·층수 지정 가능</span> · OTA 미제공 혜택</div>
+    </div>
+
+    <div style="background:#fdf8f0;border:1.5px solid #e8d9b8;border-radius:14px;padding:16px">
+      <div style="font-size:16px;font-weight:600;color:#1a1a1a;margin-bottom:12px">Anniversary Dining Stay</div>
+      <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#555;margin:6px 0"><i class="ti ti-check" style="color:#c9923a;font-size:16px"></i>객실 1박 (디럭스 킹 · 층수 지정)</div>
+      <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#555;margin:6px 0"><i class="ti ti-check" style="color:#c9923a;font-size:16px"></i>조식 2인</div>
+      <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#555;margin:6px 0"><i class="ti ti-check" style="color:#c9923a;font-size:16px"></i>다이닝 크레딧 50,000원</div>
+      <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#555;margin:6px 0"><i class="ti ti-check" style="color:#c9923a;font-size:16px"></i>기념일 케이크 메시지</div>
+      <div style="margin:12px 0"><div class="tag">공식예약</div><div class="tag">포인트적립</div><div class="tag">무료취소</div></div>
+      <div style="height:1px;background:#e8d9b8;margin:12px 0"></div>
+      <!-- 정가·회원가 동시 노출 (제안서: 회원가·적립 결제 직전까지 체감) -->
+      <div style="margin-bottom:14px">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+          <span style="font-size:12px;color:#bbb;text-decoration:line-through">406,000원</span>
+          <span style="background:#f5ede0;border-radius:6px;padding:2px 8px;font-size:11px;color:#c9923a;font-weight:600">-15% GOLD</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:18px;font-weight:700;color:#c9923a">345,000원~</span>
+          <span style="font-size:12px;color:#888">2,760P 적립 예정</span>
+        </div>
+      </div>
+      <div class="gold-btn">패키지 선택하기</div>
+    </div>
+  </div>
+  <div class="bnav">
+    <div class="bnav-item"><i class="ti ti-home" style="font-size:24px"></i>홈</div>
+    <div class="bnav-item"><i class="ti ti-search" style="font-size:24px"></i>탐색</div>
+    <div class="bnav-center"><div class="bnav-circle"><i class="ti ti-calendar" style="font-size:22px"></i>예약</div></div>
+    <div class="bnav-item"><i class="ti ti-shopping-bag" style="font-size:24px"></i>이샵</div>
+    <div class="bnav-item"><i class="ti ti-user" style="font-size:24px"></i>MY</div>
+  </div>
+</div>
+</div>
+
+<!-- 옵션 추가 -->
+<div class="sub-screen" id="r-option" style="display:none">
+<div class="phone">
+  <div class="status"><span>9:41</span><span style="display:flex;gap:6px"><i class="ti ti-wifi"></i><i class="ti ti-battery"></i></span></div>
+  <div class="header">
+    <div style="width:36px;display:flex;align-items:center;justify-content:center"><i class="ti ti-arrow-left" style="font-size:20px;color:#555"></i></div>
+    <div class="header-title">옵션 추가</div>
+    <div style="width:36px"></div>
+  </div>
+  <div style="background:#1a1a14;padding:18px 20px">
+    <div style="font-size:12px;color:#c9923a;margin-bottom:4px;font-weight:600">기념일 추천 옵션</div>
+    <div style="font-size:18px;font-weight:700;color:#fff">더 특별한 경험을 추가해보세요.</div>
+  </div>
+  <div class="scrn-pad">
+    <!-- 다이닝 연계 원스톱 (제안서: 객실+다이닝 함께 담기) -->
+    <div style="background:#fffbf5;border:1.5px solid #f0d9b4;border-radius:12px;padding:12px 14px;margin-bottom:16px">
+      <div style="font-size:12px;color:#c9923a;font-weight:600;margin-bottom:6px"><i class="ti ti-star" style="font-size:12px"></i> 공식 채널 독점 · 다이닝 원스톱 예약</div>
+      <div style="display:flex;gap:8px">
+        <div style="flex:1;background:#fff;border-radius:10px;padding:10px;text-align:center;border:1px solid #e8d9b8">
+          <div style="font-size:12px;font-weight:600;color:#1a1a1a">더 킹스 디너 뷔페</div>
+          <div style="font-size:12px;color:#888;margin-top:2px">+62,000원</div>
+        </div>
+        <div style="flex:1;background:#fff;border-radius:10px;padding:10px;text-align:center;border:1px solid #e8d9b8">
+          <div style="font-size:12px;font-weight:600;color:#1a1a1a">르 뚜르 디너</div>
+          <div style="font-size:12px;color:#c9923a;margin-top:2px">미쉐린 · +88,000원</div>
+        </div>
+      </div>
+    </div>
+    <div class="option-row">
+      <div class="option-icon"><i class="ti ti-coffee"></i></div>
+      <div style="flex:1"><div style="font-size:14px;font-weight:600;color:#1a1a1a">조식 2인 포함</div><div style="font-size:12px;color:#999;margin-top:2px">패키지에 이미 포함된 혜택</div></div>
+      <div class="toggle" style="margin-top:3px"></div>
+    </div>
+    <div class="option-row">
+      <div class="option-icon"><i class="ti ti-cake"></i></div>
+      <div style="flex:1"><div style="font-size:14px;font-weight:600;color:#1a1a1a">기념일 케이크 메시지</div><div style="font-size:12px;color:#999;margin-top:2px">축하 메시지: ❤ 사랑해</div><div style="font-size:13px;color:#c9923a;font-weight:500;margin-top:3px">+35,000원</div></div>
+      <div class="toggle" style="margin-top:3px"></div>
+    </div>
+    <div class="option-row">
+      <div class="option-icon"><i class="ti ti-flower"></i></div>
+      <div style="flex:1"><div style="font-size:14px;font-weight:600;color:#1a1a1a">객실 플라워 세팅</div><div style="font-size:13px;color:#c9923a;font-weight:500;margin-top:3px">+45,000원</div></div>
+      <div class="toggle off" style="margin-top:3px"></div>
+    </div>
+    <div class="option-row" style="border-bottom:none">
+      <div class="option-icon"><i class="ti ti-building"></i></div>
+      <div style="flex:1"><div style="font-size:14px;font-weight:600;color:#1a1a1a">고층뷰 배정 요청</div><div style="font-size:12px;color:#999;margin-top:2px">자사 채널 독점 · 무료</div></div>
+      <div class="toggle" style="margin-top:3px"></div>
+    </div>
+  </div>
+  <div style="background:#fff;border-top:1.5px solid #e8e3d8;padding:14px 16px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <div><div style="font-size:13px;color:#888">현재 합계</div><div style="font-size:20px;font-weight:700;color:#1a1a1a">380,000원</div></div>
+      <div style="font-size:12px;color:#999;text-align:right">기본 345,000원<br>+ 케이크 35,000원</div>
+    </div>
+    <div class="gold-btn">옵션 확정하고 결제하기</div>
+  </div>
+  <div class="bnav">
+    <div class="bnav-item"><i class="ti ti-home" style="font-size:24px"></i>홈</div>
+    <div class="bnav-item"><i class="ti ti-search" style="font-size:24px"></i>탐색</div>
+    <div class="bnav-center"><div class="bnav-circle"><i class="ti ti-calendar" style="font-size:22px"></i>예약</div></div>
+    <div class="bnav-item"><i class="ti ti-shopping-bag" style="font-size:24px"></i>이샵</div>
+    <div class="bnav-item"><i class="ti ti-user" style="font-size:24px"></i>MY</div>
+  </div>
+</div>
+</div>
+
+<!-- 회원 혜택 -->
+<div class="sub-screen" id="r-benefit" style="display:none">
+<div class="phone">
+  <div class="status"><span>9:41</span><span style="display:flex;gap:6px"><i class="ti ti-wifi"></i><i class="ti ti-battery"></i></span></div>
+  <div class="header">
+    <div style="width:36px;display:flex;align-items:center;justify-content:center"><i class="ti ti-arrow-left" style="font-size:20px;color:#555"></i></div>
+    <div class="header-title">회원 혜택 적용</div>
+    <div style="display:flex"><div style="width:36px;display:flex;align-items:center;justify-content:center"><i class="ti ti-search" style="font-size:20px;color:#555"></i></div><div style="width:36px;display:flex;align-items:center;justify-content:center"><i class="ti ti-menu-2" style="font-size:20px;color:#555"></i></div></div>
+  </div>
+  <div class="scrn-pad">
+    <!-- Gold Member 카드 + 소멸 예정 노출 (제안서: 포인트·소멸 시각화) -->
+    <div style="background:#1a1a14;border-radius:16px;padding:18px;margin-bottom:14px">
+      <div style="font-size:12px;color:#c9923a;margin-bottom:2px">Current Tier</div>
+      <div style="font-size:22px;font-weight:600;color:#d4a855;margin-bottom:14px;display:flex;justify-content:space-between">Gold Member <i class="ti ti-crown" style="font-size:20px"></i></div>
+      <div style="height:1px;background:#333;margin-bottom:14px"></div>
+      <div style="display:flex;gap:28px;margin-bottom:12px">
+        <div><div style="font-size:12px;color:#888;margin-bottom:4px">보유 포인트</div><div style="font-size:18px;font-weight:600;color:#fff">12,400 P</div></div>
+        <div><div style="font-size:12px;color:#888;margin-bottom:4px">사용 가능 쿠폰</div><div style="font-size:18px;font-weight:600;color:#fff">2 장</div></div>
+      </div>
+      <!-- 소멸 예정 알림 -->
+      <div style="background:#2a1a0a;border-radius:8px;padding:8px 12px;display:flex;align-items:center;gap:8px">
+        <i class="ti ti-alert-circle" style="font-size:14px;color:#e07030;flex-shrink:0"></i>
+        <span style="font-size:12px;color:#e07030">2,000P 60일 내 소멸 예정 · 지금 사용하세요</span>
+      </div>
+    </div>
+    <div style="text-align:center;margin-bottom:6px">
+      <span style="font-size:15px;color:#999;text-decoration:line-through">460,000원</span>
+      <span style="font-size:13px;color:#999;margin:0 8px">→</span>
+      <span style="font-size:26px;font-weight:700;color:#1a1a1a">418,000원</span>
+    </div>
+    <div class="savings-pill">실시간 42,000원 절약 중</div>
+    <div class="card">
+      <div class="row"><span style="font-size:14px;color:#555">객실 기본가</span><span style="font-size:14px;color:#1a1a1a">460,000원</span></div>
+      <div style="height:1px;background:#e8e3d8;margin:0"></div>
+      <div class="row"><span style="font-size:14px;color:#555">GOLD 회원 할인</span><span style="font-size:14px;color:#d04040">-32,000원</span></div>
+      <div class="row"><span style="font-size:14px;color:#555">웰컴 쿠폰 적용</span><span style="font-size:14px;color:#d04040">-10,000원</span></div>
+      <div style="height:1px;background:#e8e3d8;margin:4px 0"></div>
+      <div class="row"><span style="font-size:15px;font-weight:600;color:#1a1a1a">최종 결제 금액</span><span style="font-size:20px;font-weight:700;color:#c9923a">408,000원</span></div>
+      <div style="display:flex;align-items:center;gap:6px;margin-top:2px"><i class="ti ti-info-circle" style="font-size:14px;color:#c9923a"></i><span style="font-size:12px;color:#888">예약 시 3,200P 적립 예정</span></div>
+    </div>
+    <div style="font-size:14px;font-weight:600;color:#1a1a1a;margin-bottom:10px">쿠폰 적용</div>
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:14px;color:#1a1a1a">웰컴 쿠폰 (-10,000원)</span>
+        <div class="toggle"></div>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+      <div style="font-size:14px;font-weight:600;color:#1a1a1a">포인트 사용</div>
+      <div style="font-size:12px;color:#888">보유 12,400P · 소멸 2,000P</div>
+    </div>
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:14px;color:#bbb">0 P</span>
+        <div class="outline-btn" style="padding:8px 18px;font-size:13px;border-radius:10px">전액 사용</div>
+      </div>
+    </div>
+    <div class="gold-btn">혜택 적용하고 계속하기</div>
+  </div>
+  <div class="bnav">
+    <div class="bnav-item"><i class="ti ti-home" style="font-size:24px"></i>홈</div>
+    <div class="bnav-item"><i class="ti ti-search" style="font-size:24px"></i>탐색</div>
+    <div class="bnav-center"><div class="bnav-circle"><i class="ti ti-calendar" style="font-size:22px"></i>예약</div></div>
+    <div class="bnav-item"><i class="ti ti-shopping-bag" style="font-size:24px"></i>이샵</div>
+    <div class="bnav-item"><i class="ti ti-user" style="font-size:24px"></i>MY</div>
+  </div>
+</div>
+</div>
+
+<!-- 결제 -->
+<div class="sub-screen" id="r-pay" style="display:none">
+<div class="phone">
+  <div class="status"><span>9:41</span><span style="display:flex;gap:6px"><i class="ti ti-wifi"></i><i class="ti ti-battery"></i></span></div>
+  <div class="header">
+    <div style="width:36px;display:flex;align-items:center;justify-content:center"><i class="ti ti-arrow-left" style="font-size:20px;color:#555"></i></div>
+    <div class="header-title">결제</div>
+    <div style="width:36px"></div>
+  </div>
+  <div class="scrn-pad">
+    <div class="card">
+      <div style="display:flex;gap:14px;align-items:flex-start">
+        <div style="width:72px;height:72px;background:#d4c9b0;border-radius:10px;flex-shrink:0"></div>
+        <div style="flex:1">
+          <div style="font-size:14px;font-weight:600;color:#1a1a1a;margin-bottom:4px">그랜드 앰배서더 서울 풀만</div>
+          <div style="font-size:12px;color:#888;line-height:1.6">Anniversary Dining Stay + 케이크 옵션<br>5.24(토) → 5.25(일) · 성인 2명 · 객실 1실</div>
+          <div style="font-size:12px;color:#c9923a;margin-top:4px;font-weight:500">변경</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="row"><span style="font-size:14px;color:#555">패키지 기본가</span><span style="font-size:14px;color:#1a1a1a">345,000원</span></div>
+      <div class="row"><span style="font-size:14px;color:#555">기념일 케이크</span><span style="font-size:14px;color:#1a1a1a">+35,000원</span></div>
+      <div class="row"><span style="font-size:14px;color:#555">GOLD 회원 할인</span><span style="font-size:14px;color:#d04040">-32,000원</span></div>
+      <div class="row"><span style="font-size:14px;color:#555">웰컴 쿠폰 할인</span><span style="font-size:14px;color:#d04040">-10,000원</span></div>
+      <div style="height:1px;background:#e8e3d8;margin:4px 0"></div>
+      <div class="row"><span style="font-size:15px;font-weight:600;color:#1a1a1a">최종 결제 금액</span><span style="font-size:20px;font-weight:700;color:#1a1a1a">338,000원</span></div>
+      <div class="savings-pill">42,000원 절약 + 3,200P 예상 적립</div>
+    </div>
+    <!-- 스페셜 오퍼 코드 (FNR 4-6) -->
+    <div class="card" style="padding:12px 14px;margin-bottom:12px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0" id="offer-header" onclick="toggleOffer()">
+        <div style="display:flex;align-items:center;gap:8px">
+          <i class="ti ti-tag" style="font-size:18px;color:#c9923a"></i>
+          <span style="font-size:14px;font-weight:500;color:#1a1a1a">스페셜 오퍼 코드</span>
+        </div>
+        <i class="ti ti-chevron-down" id="offer-icon" style="font-size:16px;color:#bbb"></i>
+      </div>
+      <div id="offer-body" style="display:none;margin-top:12px;gap:8px">
+        <input type="text" placeholder="코드 입력 (예: SUMMER25)" style="flex:1;border:1.5px solid #e8e3d8;border-radius:10px;padding:10px 12px;font-size:13px;color:#1a1a1a;outline:none">
+        <div class="gold-btn" style="width:auto;padding:10px 16px;font-size:13px;border-radius:10px">적용</div>
+      </div>
+    </div>
+    <div style="font-size:14px;font-weight:600;color:#1a1a1a;margin-bottom:10px">결제 수단</div>
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid #e8e3d8"><span style="font-size:14px">신용카드</span><div class="radio-sel"></div></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid #e8e3d8"><span style="font-size:14px">카카오페이</span><div class="radio-empty"></div></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid #e8e3d8"><span style="font-size:14px">네이버페이</span><div class="radio-empty"></div></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0"><span style="font-size:14px">해외카드</span><div class="radio-empty"></div></div>
+    </div>
+    <div class="card" style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:14px;color:#888">1234 - **** - **** - 5678</span><i class="ti ti-edit" style="font-size:18px;color:#bbb"></i></div>
+    <div style="margin-bottom:14px">
+      <div style="font-size:13px;color:#4a9a6a;font-weight:500;margin:4px 0">무료 취소 가능: 체크인 3일 전(5.21)까지</div>
+      <div style="font-size:12px;color:#888">이후 취소 시 1박 요금이 부과될 수 있습니다.</div>
+    </div>
+    <div style="background:#f5ede0;border-radius:12px;padding:12px 16px;text-align:center;font-size:13px;color:#8a6030;margin-bottom:14px">공식 채널 예약 혜택: 조식 2인 · 포인트 3,200P 적립</div>
+    <div class="gold-btn">338,000원 결제하기</div>
+    <div style="text-align:center;font-size:12px;color:#aaa;margin-top:10px">예약 완료 시 확인 이메일이 발송됩니다.</div>
+  </div>
+  <div class="bnav">
+    <div class="bnav-item"><i class="ti ti-home" style="font-size:24px"></i>홈</div>
+    <div class="bnav-item"><i class="ti ti-search" style="font-size:24px"></i>탐색</div>
+    <div class="bnav-center"><div class="bnav-circle"><i class="ti ti-calendar" style="font-size:22px"></i>예약</div></div>
+    <div class="bnav-item"><i class="ti ti-shopping-bag" style="font-size:24px"></i>이샵</div>
+    <div class="bnav-item"><i class="ti ti-user" style="font-size:24px"></i>MY</div>
+  </div>
+</div>
+</div>
+
+<!-- 예약 완료 -->
+<div class="sub-screen" id="r-done" style="display:none">
+<div class="phone">
+  <div class="status"><span>9:41</span><span style="display:flex;gap:6px"><i class="ti ti-wifi"></i><i class="ti ti-battery"></i></span></div>
+  <div class="header">
+    <div style="width:36px"></div>
+    <div class="header-title">예약 완료</div>
+    <div style="display:flex">
+      <div style="width:36px;display:flex;align-items:center;justify-content:center"><i class="ti ti-search" style="font-size:20px;color:#555"></i></div>
+      <div style="width:36px;display:flex;align-items:center;justify-content:center"><i class="ti ti-menu-2" style="font-size:20px;color:#555"></i></div>
+    </div>
+  </div>
+  <div class="scrn-pad" style="padding-top:28px;text-align:center">
+    <div style="width:80px;height:80px;background:#c9923a;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 18px">
+      <i class="ti ti-check" style="font-size:40px;color:#fff"></i>
+    </div>
+    <div style="font-size:22px;font-weight:700;color:#1a1a1a;margin-bottom:24px">예약이 완료되었습니다!</div>
+    <!-- 예약 요약 카드 -->
+    <div style="background:#1a1a14;border-radius:16px;padding:18px;text-align:left;margin-bottom:14px">
+      <div style="font-size:12px;color:#888;margin-bottom:6px">예약 번호</div>
+      <div style="font-size:15px;font-weight:700;color:#c9923a;margin-bottom:12px">AMB-20250524-8842</div>
+      <div style="font-size:17px;font-weight:700;color:#fff;margin-bottom:4px">그랜드 앰배서더 서울 풀만</div>
+      <div style="font-size:13px;color:#aaa;margin-bottom:4px">Anniversary Dining Stay</div>
+      <div style="font-size:13px;color:#aaa;margin-bottom:12px">5.24(토) - 5.25(일) · 성인 2</div>
+      <div style="display:flex;gap:8px"><div class="tag" style="background:#2a2a1e;color:#c9923a;border:none">기념일 케이크 포함</div><div class="tag" style="background:#2a2a1e;color:#c9923a;border:none">공식예약 혜택</div></div>
+    </div>
+    <!-- 포인트 적립 안내 -->
+    <div class="card" style="text-align:left;padding:14px">
+      <div style="display:flex;gap:8px;align-items:flex-start">
+        <i class="ti ti-info-circle" style="font-size:16px;color:#c9923a;margin-top:1px;flex-shrink:0"></i>
+        <div>
+          <div style="font-size:13px;color:#1a1a1a;font-weight:500;margin-bottom:3px">이번 예약으로 3,200P가 적립될 예정이에요</div>
+          <div style="font-size:12px;color:#888">적립 후 예상 포인트: 15,600 P</div>
+        </div>
+      </div>
+    </div>
+    <!-- 빠른 액션 -->
+    <div style="display:flex;gap:10px;margin-bottom:14px">
+      <div style="flex:1;background:#fff;border:1px solid #e8e3d8;border-radius:14px;padding:16px;display:flex;flex-direction:column;align-items:center;gap:8px">
+        <i class="ti ti-file-text" style="font-size:24px;color:#c9923a"></i>
+        <div style="font-size:13px;color:#1a1a1a;font-weight:500">예약 상세</div>
+      </div>
+      <div style="flex:1;background:#fff;border:1px solid #e8e3d8;border-radius:14px;padding:16px;display:flex;flex-direction:column;align-items:center;gap:8px">
+        <i class="ti ti-calendar-plus" style="font-size:24px;color:#c9923a"></i>
+        <div style="font-size:13px;color:#1a1a1a;font-weight:500">캘린더 추가</div>
+      </div>
+      <div style="flex:1;background:#fff;border:1px solid #e8e3d8;border-radius:14px;padding:16px;display:flex;flex-direction:column;align-items:center;gap:8px">
+        <i class="ti ti-map" style="font-size:24px;color:#c9923a"></i>
+        <div style="font-size:13px;color:#1a1a1a;font-weight:500">호텔 길찾기</div>
+      </div>
+    </div>
+    <!-- 멤버십 게이지 (제안서: 다음 등급 게이지로 공식 채널 유도) -->
+    <div class="card" style="text-align:left;margin-bottom:14px">
+      <div style="font-size:14px;font-weight:600;color:#1a1a1a;margin-bottom:4px">다음 기념일에도 앰배서더가 기억하고 추천해 드릴게요.</div>
+      <div style="font-size:13px;color:#888;margin-bottom:8px">Next Tier: <span style="color:#c9923a;font-weight:600">Platinum</span> 까지 1,400,000원</div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:#aaa;margin-bottom:4px"><span>Gold</span><span>Platinum</span></div>
+      <div style="height:6px;background:#e8e3d8;border-radius:3px;margin-bottom:12px">
+        <div style="width:46%;height:100%;background:linear-gradient(90deg,#c9923a,#e8b76a);border-radius:3px"></div>
+      </div>
+      <div style="text-align:center;font-size:13px;color:#c9923a;font-weight:500">멤버십 혜택 보기</div>
+    </div>
+    <!-- 업셀 -->
+    <div style="font-size:15px;font-weight:600;color:#1a1a1a;text-align:left;margin-bottom:10px">이번 숙박을 더 특별하게</div>
+    <div style="display:flex;gap:10px;margin-bottom:20px">
+      <div style="flex:1;background:#fff;border:1px solid #e8e3d8;border-radius:14px;padding:14px;display:flex;align-items:center;gap:10px">
+        <i class="ti ti-tools-kitchen-2" style="font-size:22px;color:#888"></i>
+        <span style="font-size:14px;color:#1a1a1a;font-weight:500">다이닝 예약</span>
+      </div>
+      <div style="flex:1;background:#fff;border:1px solid #e8e3d8;border-radius:14px;padding:14px;display:flex;align-items:center;gap:10px">
+        <i class="ti ti-gift" style="font-size:22px;color:#888"></i>
+        <span style="font-size:14px;color:#1a1a1a;font-weight:500">상품권 선물</span>
+      </div>
+    </div>
+  </div>
+  <div class="bnav">
+    <div class="bnav-item"><i class="ti ti-home" style="font-size:24px"></i>홈</div>
+    <div class="bnav-item"><i class="ti ti-search" style="font-size:24px"></i>탐색</div>
+    <div class="bnav-center"><div class="bnav-circle"><i class="ti ti-calendar" style="font-size:22px"></i>예약</div></div>
+    <div class="bnav-item"><i class="ti ti-shopping-bag" style="font-size:24px"></i>이샵</div>
+    <div class="bnav-item"><i class="ti ti-user" style="font-size:24px"></i>MY</div>
+  </div>
+</div>
+</div>
+
+</div>
+
+<!-- ========== 다이닝 ========== -->
+<div class="screen-wrap" id="dining">
+<div class="phone">
+  <div class="status"><span>9:41</span><span style="display:flex;gap:6px"><i class="ti ti-wifi"></i><i class="ti ti-battery"></i></span></div>
+  <div class="header" style="border-bottom:none">
+    <div class="header-title" style="text-align:left;font-size:20px">다이닝</div>
+    <div style="display:flex;gap:4px">
+      <div style="width:36px;height:36px;display:flex;align-items:center;justify-content:center"><i class="ti ti-search" style="font-size:22px;color:#555"></i></div>
+    </div>
+  </div>
+  <div style="display:flex;gap:8px;padding:0 16px 14px;overflow-x:auto">
+    <div style="background:#c9923a;color:#fff;border-radius:20px;padding:7px 16px;font-size:13px;font-weight:600;white-space:nowrap;flex-shrink:0">전체</div>
+    <div style="background:#fff;border:1px solid #e8e3d8;color:#888;border-radius:20px;padding:7px 16px;font-size:13px;white-space:nowrap;flex-shrink:0">파인다이닝</div>
+    <div style="background:#fff;border:1px solid #e8e3d8;color:#888;border-radius:20px;padding:7px 16px;font-size:13px;white-space:nowrap;flex-shrink:0">뷔페</div>
+    <div style="background:#fff;border:1px solid #e8e3d8;color:#888;border-radius:20px;padding:7px 16px;font-size:13px;white-space:nowrap;flex-shrink:0">바&라운지</div>
+    <div style="background:#fff;border:1px solid #e8e3d8;color:#888;border-radius:20px;padding:7px 16px;font-size:13px;white-space:nowrap;flex-shrink:0">카페</div>
+  </div>
+  <div style="position:relative;margin:0 16px;border-radius:16px;overflow:hidden;margin-bottom:16px">
+    <div class="img-box" style="height:180px">이미지</div>
+    <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.75));padding:40px 16px 16px">
+      <div style="font-size:11px;color:#c9923a;font-weight:600;margin-bottom:4px">파인다이닝</div>
+      <div style="font-size:18px;font-weight:700;color:#fff">르 뚜르</div>
+      <div style="font-size:13px;color:rgba(255,255,255,0.8)">그랜드 앰배서더 서울 풀만 · 3F</div>
+    </div>
+  </div>
+  <div class="scrn-pad" style="padding-top:0">
+    <div style="font-size:15px;font-weight:600;color:#1a1a1a;margin-bottom:12px">레스토랑 목록</div>
+    <div class="card" style="padding:0;overflow:hidden;margin-bottom:12px">
+      <div class="img-box" style="height:140px">이미지</div>
+      <div style="padding:14px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
+          <div>
+            <div style="font-size:11px;color:#c9923a;font-weight:600;margin-bottom:3px">파인다이닝</div>
+            <div style="font-size:16px;font-weight:600;color:#1a1a1a">르 뚜르</div>
+          </div>
+          <div style="background:#f5f0e6;border-radius:8px;padding:4px 10px;font-size:12px;color:#7a6340">예약 가능</div>
+        </div>
+        <div style="font-size:13px;color:#888;margin-bottom:10px">그랜드 앰배서더 서울 풀만 3F<br>런치 12:00~14:30 · 디너 18:00~21:30</div>
+        <div class="gold-btn" style="padding:12px;font-size:14px">예약하기</div>
+      </div>
+    </div>
+    <div class="card" style="padding:0;overflow:hidden;margin-bottom:12px">
+      <div class="img-box" style="height:120px">이미지</div>
+      <div style="padding:14px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
+          <div>
+            <div style="font-size:11px;color:#c9923a;font-weight:600;margin-bottom:3px">뷔페</div>
+            <div style="font-size:16px;font-weight:600;color:#1a1a1a">아리아</div>
+          </div>
+          <div style="background:#f5f0e6;border-radius:8px;padding:4px 10px;font-size:12px;color:#7a6340">예약 가능</div>
+        </div>
+        <div style="font-size:13px;color:#888;margin-bottom:10px">노보텔 앰배서더 강남 2F<br>조식 07:00~10:00 · 런치 · 디너</div>
+        <div class="gold-btn" style="padding:12px;font-size:14px">예약하기</div>
+      </div>
+    </div>
+    <div class="card" style="padding:0;overflow:hidden">
+      <div class="img-box" style="height:120px">이미지</div>
+      <div style="padding:14px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
+          <div>
+            <div style="font-size:11px;color:#888;font-weight:600;margin-bottom:3px">바&라운지</div>
+            <div style="font-size:16px;font-weight:600;color:#1a1a1a">더 그릴</div>
+          </div>
+          <div style="background:#f0f0f0;border-radius:8px;padding:4px 10px;font-size:12px;color:#999">예약 마감</div>
+        </div>
+        <div style="font-size:13px;color:#888;margin-bottom:10px">그랜드 앰배서더 서울 풀만 1F<br>17:00~01:00</div>
+        <div class="outline-btn" style="padding:12px;font-size:14px;border-radius:14px">웨이팅 등록</div>
+      </div>
+    </div>
+  </div>
+  <div class="bnav">
+    <div class="bnav-item"><i class="ti ti-home" style="font-size:24px"></i>홈</div>
+    <div class="bnav-item"><i class="ti ti-search" style="font-size:24px"></i>탐색</div>
+    <div class="bnav-center"><div class="bnav-circle"><i class="ti ti-calendar" style="font-size:22px"></i>예약</div></div>
+    <div class="bnav-item act"><i class="ti ti-tools-kitchen-2" style="font-size:24px"></i>다이닝</div>
+    <div class="bnav-item"><i class="ti ti-user" style="font-size:24px"></i>MY</div>
+  </div>
+</div>
+</div>
+
+<!-- ========== 이샵 ========== -->
+<div class="screen-wrap" id="eshop">
+<div class="phone">
+  <div class="status"><span>9:41</span><span style="display:flex;gap:6px"><i class="ti ti-wifi"></i><i class="ti ti-battery"></i></span></div>
+  <div class="header" style="border-bottom:none">
+    <div class="header-title" style="text-align:left;font-size:20px">이샵</div>
+    <div style="display:flex;gap:4px">
+      <div style="width:36px;height:36px;display:flex;align-items:center;justify-content:center"><i class="ti ti-search" style="font-size:22px;color:#555"></i></div>
+      <div style="width:36px;height:36px;display:flex;align-items:center;justify-content:center"><i class="ti ti-shopping-cart" style="font-size:22px;color:#555"></i></div>
+    </div>
+  </div>
+  <div style="display:flex;gap:8px;padding:0 16px 14px;overflow-x:auto">
+    <div style="background:#c9923a;color:#fff;border-radius:20px;padding:7px 16px;font-size:13px;font-weight:600;white-space:nowrap;flex-shrink:0">전체</div>
+    <div style="background:#fff;border:1px solid #e8e3d8;color:#888;border-radius:20px;padding:7px 16px;font-size:13px;white-space:nowrap;flex-shrink:0">상품권</div>
+    <div style="background:#fff;border:1px solid #e8e3d8;color:#888;border-radius:20px;padding:7px 16px;font-size:13px;white-space:nowrap;flex-shrink:0">패키지</div>
+    <div style="background:#fff;border:1px solid #e8e3d8;color:#888;border-radius:20px;padding:7px 16px;font-size:13px;white-space:nowrap;flex-shrink:0">굿즈</div>
+    <div style="background:#fff;border:1px solid #e8e3d8;color:#888;border-radius:20px;padding:7px 16px;font-size:13px;white-space:nowrap;flex-shrink:0">식품</div>
+  </div>
+  <div style="margin:0 16px 16px;background:#1a1a14;border-radius:16px;padding:20px">
+    <div style="font-size:12px;color:#c9923a;margin-bottom:4px;font-weight:600">기념일 선물 추천</div>
+    <div style="font-size:18px;font-weight:700;color:#fff;margin-bottom:4px">소중한 분께<br>앰배서더 상품권을</div>
+    <div style="font-size:13px;color:#aaa;margin-bottom:14px">5만원~100만원 · 모바일 즉시 발송</div>
+    <div style="background:#c9923a;color:#fff;border-radius:10px;padding:10px 18px;font-size:13px;font-weight:600;display:inline-block">선물하기</div>
+  </div>
+  <div class="scrn-pad" style="padding-top:0">
+    <div style="font-size:15px;font-weight:600;color:#1a1a1a;margin-bottom:12px">인기 상품</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><!-- grid starts -->
+      <div style="background:#fff;border-radius:14px;overflow:hidden;border:1px solid #e8e3d8">
+        <div class="img-box" style="height:120px;font-size:12px">이미지</div>
+        <div style="padding:12px">
+          <div style="font-size:11px;color:#888;margin-bottom:3px">상품권</div>
+          <div style="font-size:14px;font-weight:600;color:#1a1a1a;margin-bottom:6px">모바일 상품권 5만원</div>
+          <div style="font-size:15px;font-weight:700;color:#c9923a">50,000원</div>
+        </div>
+      </div>
+      <div style="background:#fff;border-radius:14px;overflow:hidden;border:1px solid #e8e3d8">
+        <div class="img-box" style="height:120px;font-size:12px">이미지</div>
+        <div style="padding:12px">
+          <div style="font-size:11px;color:#888;margin-bottom:3px">패키지</div>
+          <div style="font-size:14px;font-weight:600;color:#1a1a1a;margin-bottom:6px">스파 2인 이용권</div>
+          <div style="font-size:15px;font-weight:700;color:#c9923a">180,000원</div>
+        </div>
+      </div>
+      <div style="background:#fff;border-radius:14px;overflow:hidden;border:1px solid #e8e3d8">
+        <div class="img-box" style="height:120px;font-size:12px">이미지</div>
+        <div style="padding:12px">
+          <div style="font-size:11px;color:#888;margin-bottom:3px">굿즈</div>
+          <div style="font-size:14px;font-weight:600;color:#1a1a1a;margin-bottom:6px">앰배서더 어메니티 세트</div>
+          <div style="font-size:15px;font-weight:700;color:#c9923a">45,000원</div>
+        </div>
+      </div>
+      <div style="background:#fff;border-radius:14px;overflow:hidden;border:1px solid #e8e3d8">
+        <div class="img-box" style="height:120px;font-size:12px">이미지</div>
+        <div style="padding:12px">
+          <div style="font-size:11px;color:#888;margin-bottom:3px">식품</div>
+          <div style="font-size:14px;font-weight:600;color:#1a1a1a;margin-bottom:6px">르 뚜르 시그니처 케이크</div>
+          <div style="font-size:15px;font-weight:700;color:#c9923a">68,000원</div>
+        </div>
+      </div>
+    </div><!-- grid ends -->
+
+    <!-- 상품 리뷰 섹션 (FNR 11-4) -->
+    <div style="margin-top:20px">
+      <div style="font-size:15px;font-weight:600;color:#1a1a1a;margin-bottom:12px">구매 고객 리뷰</div>
+      <div class="card" style="padding:14px;margin-bottom:10px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+          <div>
+            <div style="display:flex;gap:2px;margin-bottom:4px">
+              <i class="ti ti-star-filled" style="font-size:14px;color:#c9923a"></i>
+              <i class="ti ti-star-filled" style="font-size:14px;color:#c9923a"></i>
+              <i class="ti ti-star-filled" style="font-size:14px;color:#c9923a"></i>
+              <i class="ti ti-star-filled" style="font-size:14px;color:#c9923a"></i>
+              <i class="ti ti-star-filled" style="font-size:14px;color:#c9923a"></i>
+            </div>
+            <div style="font-size:13px;font-weight:600;color:#1a1a1a">모바일 상품권 5만원</div>
+          </div>
+          <span style="font-size:11px;color:#aaa">2025.05.10</span>
+        </div>
+        <div style="font-size:13px;color:#555;line-height:1.6">기념일 선물로 보냈는데 즉시 발송되어서 좋았어요. 앰배서더 특별 패키지도 함께 추천받았습니다.</div>
+        <div style="font-size:12px;color:#888;margin-top:6px">김*미 · GOLD 회원</div>
+      </div>
+      <div class="card" style="padding:14px;border:1.5px dashed #c9923a;background:#fffbf5">
+        <div style="display:flex;align-items:center;gap:10px">
+          <i class="ti ti-edit" style="font-size:22px;color:#c9923a;flex-shrink:0"></i>
+          <div>
+            <div style="font-size:13px;font-weight:600;color:#1a1a1a">리뷰를 작성해주세요</div>
+            <div style="font-size:12px;color:#888;margin-top:2px">스파 2인 이용권 · 포인트 추가 적립 혜택</div>
+          </div>
+          <div class="gold-btn" style="width:auto;padding:8px 14px;font-size:12px;border-radius:10px;margin-left:auto">작성</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bnav">
+    <div class="bnav-item"><i class="ti ti-home" style="font-size:24px"></i>홈</div>
+    <div class="bnav-item"><i class="ti ti-search" style="font-size:24px"></i>탐색</div>
+    <div class="bnav-center"><div class="bnav-circle"><i class="ti ti-calendar" style="font-size:22px"></i>예약</div></div>
+    <div class="bnav-item act"><i class="ti ti-shopping-bag" style="font-size:24px"></i>이샵</div>
+    <div class="bnav-item"><i class="ti ti-user" style="font-size:24px"></i>MY</div>
+  </div>
+</div>
+</div>
+
+<!-- ========== MY PAGE ========== -->
+<div class="screen-wrap" id="mypage">
+<div class="phone">
+  <div class="status"><span>9:41</span><span style="display:flex;gap:6px"><i class="ti ti-wifi"></i><i class="ti ti-battery"></i></span></div>
+  <div class="header" style="border-bottom:none">
+    <div class="header-title" style="text-align:left;font-size:20px">마이페이지</div>
+    <div style="display:flex;gap:4px">
+      <div style="width:36px;height:36px;display:flex;align-items:center;justify-content:center"><i class="ti ti-bell" style="font-size:22px;color:#555"></i></div>
+      <div style="width:36px;height:36px;display:flex;align-items:center;justify-content:center"><i class="ti ti-settings" style="font-size:22px;color:#555"></i></div>
+    </div>
+  </div>
+  <div class="scrn-pad" style="padding-top:8px">
+    <!-- 프로필 -->
+    <div class="card" style="display:flex;align-items:center;gap:14px;margin-bottom:12px">
+      <div style="width:56px;height:56px;background:#d4c9b0;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;color:#8a7050"><i class="ti ti-user"></i></div>
+      <div style="flex:1">
+        <div style="font-size:16px;font-weight:700;color:#1a1a1a">홍길동 님</div>
+        <div style="font-size:12px;color:#888;margin-top:2px">hong@email.com</div>
+      </div>
+      <div style="font-size:13px;color:#c9923a;font-weight:500">수정 <i class="ti ti-chevron-right" style="font-size:13px"></i></div>
+    </div>
+
+    <!-- 멤버십 대시보드 (제안서 KEY SCREEN ④: 포인트·등급·소멸·게이지 한 화면) -->
+    <div style="background:#1a1a14;border-radius:16px;padding:18px;margin-bottom:12px">
+      <div style="font-size:12px;color:#c9923a;margin-bottom:2px">Current Tier</div>
+      <div style="font-size:22px;font-weight:600;color:#d4a855;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center">Gold Member <i class="ti ti-crown" style="font-size:20px"></i></div>
+      <!-- 등급 게이지 -->
+      <div style="margin-bottom:14px">
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:#666;margin-bottom:5px"><span>Gold</span><span style="color:#c9923a">Platinum까지 1,600,000원</span></div>
+        <div style="height:6px;background:#333;border-radius:3px">
+          <div style="width:46%;height:100%;background:linear-gradient(90deg,#c9923a,#e8b76a);border-radius:3px"></div>
+        </div>
+      </div>
+      <div style="height:1px;background:#333;margin-bottom:14px"></div>
+      <div style="display:flex;gap:0">
+        <div style="flex:1;text-align:center;border-right:1px solid #333">
+          <div style="font-size:12px;color:#888;margin-bottom:4px">보유 포인트</div>
+          <div style="font-size:17px;font-weight:600;color:#fff">12,400 P</div>
+        </div>
+        <div style="flex:1;text-align:center;border-right:1px solid #333">
+          <div style="font-size:12px;color:#888;margin-bottom:4px">사용 가능 쿠폰</div>
+          <div style="font-size:17px;font-weight:600;color:#fff">2 장</div>
+        </div>
+        <div style="flex:1;text-align:center">
+          <div style="font-size:12px;color:#888;margin-bottom:4px">무료숙박권</div>
+          <div style="font-size:17px;font-weight:600;color:#fff">1 장</div>
+        </div>
+      </div>
+      <!-- 소멸 예정 알림 -->
+      <div style="background:#2a1a0a;border-radius:8px;padding:8px 12px;margin-top:12px;display:flex;align-items:center;gap:8px">
+        <i class="ti ti-alert-circle" style="font-size:14px;color:#e07030;flex-shrink:0"></i>
+        <span style="font-size:12px;color:#e07030">2,000P 60일 내 소멸 예정 · 사용하기 →</span>
+      </div>
+    </div>
+
+    <!-- 생애주기 추천 (제안서: 생애주기 이벤트로 재방문 유도) -->
+    <div style="background:#fdf6ee;border:1.5px solid #f0d9b4;border-radius:14px;padding:14px;margin-bottom:12px;display:flex;align-items:center;gap:12px">
+      <div style="width:44px;height:44px;background:#c9923a;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <i class="ti ti-hearts" style="font-size:20px;color:#fff"></i>
+      </div>
+      <div style="flex:1">
+        <div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:2px">6월 결혼기념일 D-12</div>
+        <div style="font-size:12px;color:#888">작년에 방문하신 룸 패키지를 다시 추천드려요</div>
+      </div>
+      <div style="font-size:12px;color:#c9923a;font-weight:500;flex-shrink:0">보기 →</div>
+    </div>
+
+    <!-- 다가오는 예약 -->
+    <div style="font-size:15px;font-weight:600;color:#1a1a1a;margin-bottom:10px">다가오는 예약</div>
+    <div class="card" style="border-left:3px solid #c9923a;border-radius:0 14px 14px 0">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+        <div style="font-size:14px;font-weight:600;color:#1a1a1a">그랜드 앰배서더 서울 풀만</div>
+        <div style="background:#f5ede0;border-radius:6px;padding:3px 8px;font-size:11px;color:#c9923a;font-weight:600">D-5</div>
+      </div>
+      <div style="font-size:13px;color:#888;margin-bottom:6px">5.24(토) → 5.25(일) · 성인 2 · 객실 1</div>
+      <div style="font-size:13px;color:#888;margin-bottom:10px">Anniversary Dining Stay</div>
+      <div style="display:flex;gap:8px">
+        <div class="outline-btn" style="flex:1;padding:9px;font-size:13px;border-radius:10px">예약 상세</div>
+        <div class="gold-btn" style="flex:1;padding:9px;font-size:13px;border-radius:10px">체크인 준비</div>
+      </div>
+    </div>
+
+    <!-- 이용 내역 -->
+    <div style="font-size:15px;font-weight:600;color:#1a1a1a;margin:16px 0 10px">이용 내역</div>
+    <div class="card" style="padding:0;overflow:hidden">
+      <!-- 예약 내역 탭 UI (FNR 5-2: 예약중/이용완료/취소) -->
+      <div style="padding:12px 16px;border-bottom:1px solid #e8e3d8">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+          <i class="ti ti-history" style="font-size:20px;color:#c9923a"></i>
+          <span style="font-size:14px;font-weight:600;color:#1a1a1a">예약 내역</span>
+        </div>
+        <div style="display:flex;border-bottom:2px solid #e8e3d8">
+          <div style="flex:1;text-align:center;padding:8px 0;font-size:13px;font-weight:600;color:#c9923a;border-bottom:2px solid #c9923a;margin-bottom:-2px">예약중 <span style="background:#c9923a;color:#fff;border-radius:10px;padding:1px 7px;font-size:11px">1</span></div>
+          <div style="flex:1;text-align:center;padding:8px 0;font-size:13px;color:#888">이용완료</div>
+          <div style="flex:1;text-align:center;padding:8px 0;font-size:13px;color:#888">취소</div>
+        </div>
+        <div style="padding:12px 0;border-bottom:none">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+            <span style="font-size:13px;font-weight:600;color:#1a1a1a">그랜드 앰배서더 서울 풀만</span>
+            <span style="font-size:11px;color:#4a9a6a;font-weight:600">예약확정</span>
+          </div>
+          <div style="font-size:12px;color:#888;margin-bottom:8px">5.24(토) → 5.25(일) · Anniversary Dining Stay</div>
+          <div style="display:flex;gap:6px">
+            <div class="outline-btn" style="flex:1;padding:7px;font-size:12px;border-radius:8px">예약 상세</div>
+            <div style="flex:1;background:#fff5f5;border:1.5px solid #e05a2b;color:#e05a2b;border-radius:8px;padding:7px;text-align:center;font-size:12px">취소 요청</div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #e8e3d8">
+        <div style="display:flex;align-items:center;gap:12px"><i class="ti ti-coin" style="font-size:20px;color:#c9923a"></i><span style="font-size:14px;color:#1a1a1a">포인트 내역</span></div>
+        <i class="ti ti-chevron-right" style="font-size:18px;color:#bbb"></i>
+      </div>
+      <!-- 리뷰 작성 (FNR 5-4) -->
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid #e8e3d8;background:#fffbf5">
+        <div style="flex:1">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+            <i class="ti ti-star" style="font-size:16px;color:#c9923a"></i>
+            <span style="font-size:13px;font-weight:600;color:#1a1a1a">리뷰를 남겨주세요</span>
+          </div>
+          <div style="font-size:12px;color:#888">이비스 앰배서더 부산 · 이용 완료</div>
+        </div>
+        <div class="gold-btn" style="width:auto;padding:8px 14px;font-size:12px;border-radius:10px">작성하기</div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #e8e3d8">
+        <div style="display:flex;align-items:center;gap:12px"><i class="ti ti-ticket" style="font-size:20px;color:#c9923a"></i><span style="font-size:14px;color:#1a1a1a">쿠폰·바우처</span></div>
+        <i class="ti ti-chevron-right" style="font-size:18px;color:#bbb"></i>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px">
+        <div style="display:flex;align-items:center;gap:12px"><i class="ti ti-heart" style="font-size:20px;color:#c9923a"></i><span style="font-size:14px;color:#1a1a1a">찜한 호텔</span></div>
+        <i class="ti ti-chevron-right" style="font-size:18px;color:#bbb"></i>
+      </div>
+    </div>
+    <div style="font-size:15px;font-weight:600;color:#1a1a1a;margin:16px 0 10px">고객 지원</div>
+    <div class="card" style="padding:0;overflow:hidden">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #e8e3d8">
+        <div style="display:flex;align-items:center;gap:12px"><i class="ti ti-headset" style="font-size:20px;color:#888"></i><span style="font-size:14px;color:#1a1a1a">고객센터</span></div>
+        <i class="ti ti-chevron-right" style="font-size:18px;color:#bbb"></i>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px">
+        <div style="display:flex;align-items:center;gap:12px"><i class="ti ti-help-circle" style="font-size:20px;color:#888"></i><span style="font-size:14px;color:#1a1a1a">FAQ</span></div>
+        <i class="ti ti-chevron-right" style="font-size:18px;color:#bbb"></i>
+      </div>
+    </div>
+  </div>
+  <div class="bnav">
+    <div class="bnav-item"><i class="ti ti-home" style="font-size:24px"></i>홈</div>
+    <div class="bnav-item"><i class="ti ti-search" style="font-size:24px"></i>탐색</div>
+    <div class="bnav-center"><div class="bnav-circle"><i class="ti ti-calendar" style="font-size:22px"></i>예약</div></div>
+    <div class="bnav-item"><i class="ti ti-shopping-bag" style="font-size:24px"></i>이샵</div>
+    <div class="bnav-item act"><i class="ti ti-user" style="font-size:24px"></i>MY</div>
+  </div>
+</div>
+</div>
+
+<script>
+function show(id, btn) {
+  document.querySelectorAll('.screen-wrap').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+function showSub(id, btn) {
+  document.querySelectorAll('.sub-screen').forEach(s => s.style.display = 'none');
+  document.querySelectorAll('.sub-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).style.display = 'block';
+  btn.classList.add('active');
+}
+
+/* ── 목적별 데이터 ── */
+const purposeData = {
+  '기념일': {
+    heroTitle: '특별한 날,<br>앰배서더와 함께',
+    heroSub: '케이크·플라워·다이닝 기념일 패키지',
+    date: '기념일 날짜 선택',
+    people: '성인 2 / 객실 1',
+    btnText: '기념일 패키지 검색',
+    sectionTitle: '기념일 추천 패키지',
+    hotels: [
+      { area:'서울·용산', name:'그랜드 앰배서더 서울 풀만', tags:['기념일 패키지','케이크 포함','다이닝 크레딧'], orig:'406,000', price:'345,000', countdown:false },
+      { area:'서울·강남', name:'노보텔 앰배서더 강남', tags:['기념일 룸 데코','플라워 세팅'], orig:'265,000', price:'225,000', countdown:true, timer:'03:22:10', remain:'잔여 3실' },
+    ]
+  },
+  '가족여행': {
+    heroTitle: '아이와 함께하는<br>완벽한 가족 여행',
+    heroSub: '키즈풀 · 패밀리룸 · 영유아 조식',
+    date: '체크인 - 체크아웃',
+    people: '성인 2, 아동 1 / 객실 1',
+    btnText: '가족 호텔 검색',
+    sectionTitle: '가족여행 추천 호텔',
+    hotels: [
+      { area:'서울·강남', name:'노보텔 앰배서더 강남', tags:['키즈풀','패밀리룸','영유아 조식'], orig:'230,000', price:'195,000', countdown:false },
+      { area:'인천', name:'이비스 앰배서더 인천', tags:['가족 패키지','공항 근접','키즈 메뉴'], orig:'156,000', price:'132,600', countdown:true, timer:'01:44:20', remain:'잔여 2실' },
+    ]
+  },
+  '미식': {
+    heroTitle: '미식가를 위한<br>앰배서더 다이닝',
+    heroSub: '미쉐린 레스토랑 · 시그니처 뷔페',
+    date: '체크인 - 체크아웃',
+    people: '성인 2 / 객실 1',
+    btnText: '다이닝 패키지 검색',
+    sectionTitle: '미식 추천 패키지',
+    hotels: [
+      { area:'서울·용산', name:'그랜드 앰배서더 서울 풀만', tags:['르 뚜르 미쉐린 디너','조식 포함'], orig:'450,000', price:'382,500', countdown:false },
+      { area:'서울·강남', name:'노보텔 앰배서더 강남', tags:['아리아 뷔페 2인','객실 1박'], orig:'310,000', price:'263,500', countdown:false },
+    ]
+  },
+  '워케이션': {
+    heroTitle: '일과 휴식을 함께,<br>워케이션',
+    heroSub: '고속 WiFi · 라운지 이용 · 장기 숙박 혜택',
+    date: '3박 이상 추천',
+    people: '성인 1 / 객실 1',
+    btnText: '워케이션 호텔 검색',
+    sectionTitle: '워케이션 추천 호텔',
+    hotels: [
+      { area:'서울·용산', name:'그랜드 앰배서더 서울 풀만', tags:['라운지 이용','고속 WiFi','장기 할인'], orig:'340,000', price:'255,000', countdown:false },
+      { area:'제주', name:'앰배서더 제주', tags:['오션뷰','워케이션 패키지','조식 포함'], orig:'280,000', price:'238,000', countdown:true, timer:'05:10:00', remain:'잔여 4실' },
+    ]
+  },
+  '출장': {
+    heroTitle: '비즈니스 출장,<br>편리하게',
+    heroSub: '조식 · 공항 셔틀 · 빠른 체크인',
+    date: '체크인 - 체크아웃',
+    people: '성인 1 / 객실 1',
+    btnText: '비즈니스 호텔 검색',
+    sectionTitle: '출장 추천 호텔',
+    hotels: [
+      { area:'서울·강남', name:'노보텔 앰배서더 강남', tags:['비즈니스 조식','빠른 체크인','포인트 2배'], orig:'230,000', price:'195,000', countdown:false },
+      { area:'인천', name:'이비스 앰배서더 인천', tags:['공항 10분','셔틀 무료','조식 포함'], orig:'156,000', price:'132,600', countdown:false },
+    ]
+  }
+};
+
+function hotelCardHTML(h) {
+  const countdown = h.countdown
+    ? `<div style="position:absolute;top:8px;left:8px;background:rgba(0,0,0,0.75);border-radius:8px;padding:4px 10px;display:flex;align-items:center;gap:5px"><i class="ti ti-clock" style="font-size:12px;color:#f87171"></i><span style="font-size:11px;color:#fff;font-weight:600">마감 ${h.timer}</span></div><div style="position:absolute;top:8px;right:8px;background:#e05a2b;border-radius:6px;padding:3px 8px;font-size:11px;color:#fff;font-weight:600">${h.remain}</div>` : '';
+  const tagsHTML = h.tags.map(t => `<div class="tag">${t}</div>`).join('');
+  return `<div class="hotel-card">
+    <div style="position:relative">
+      <div class="img-box" style="height:120px">이미지</div>
+      ${countdown}
+    </div>
+    <div style="padding:14px">
+      <div style="font-size:12px;color:#888;margin-bottom:4px">${h.area}</div>
+      <div style="font-size:15px;font-weight:600;color:#1a1a1a;margin-bottom:8px">${h.name}</div>
+      <div style="margin-bottom:10px">${tagsHTML}</div>
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="display:flex;align-items:baseline;gap:6px">
+            <span style="font-size:11px;color:#bbb;text-decoration:line-through">${h.orig}원</span>
+            <span style="background:#f5ede0;border-radius:6px;padding:1px 6px;font-size:11px;color:#c9923a;font-weight:600">-15% GOLD</span>
+          </div>
+          <div style="font-size:17px;font-weight:700;color:#c9923a">${h.price}원~</div>
+        </div>
+        <div style="width:36px;height:36px;border:1px solid #e8e3d8;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#bbb"><i class="ti ti-heart" style="font-size:18px"></i></div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function selectPurpose(name, el) {
+  // chip 활성화
+  document.querySelectorAll('.purpose-chip').forEach(c => c.classList.remove('sel'));
+  el.classList.add('sel');
+
+  const d = purposeData[name];
+
+  // 콘텐츠
+  document.getElementById('purpose-section-title').textContent = d.sectionTitle;
+  document.getElementById('purpose-content').innerHTML = d.hotels.map(hotelCardHTML).join('');
+}
+
+/* ── 검색 오버레이 ── */
+function openSearch() {
+  const ov = document.getElementById('search-overlay');
+  const panel = document.getElementById('search-panel');
+  ov.style.pointerEvents = 'auto';
+  ov.style.opacity = '1';
+  panel.style.transform = 'translateY(0)';
+  activateField('where');
+}
+function closeSearch() {
+  const ov = document.getElementById('search-overlay');
+  const panel = document.getElementById('search-panel');
+  ov.style.opacity = '0';
+  panel.style.transform = 'translateY(-12px)';
+  setTimeout(() => { ov.style.pointerEvents = 'none'; }, 360);
+}
+function activateField(name) {
+  const fields = { where:'sf-where', date:'sf-date', guest:'sf-guest' };
+  const bodies = { where:'sf-where-body', date:'sf-date-body', guest:'sf-guest-body' };
+  Object.keys(fields).forEach(k => {
+    const el = document.getElementById(fields[k]);
+    const body = document.getElementById(bodies[k]);
+    const isActive = k === name;
+    el.style.borderColor = isActive ? '#1a1a1a' : '#e8e3d8';
+    el.style.boxShadow = isActive ? '0 2px 12px rgba(0,0,0,0.1)' : 'none';
+    if (body) body.style.display = isActive ? (k === 'guest' ? 'block' : 'block') : 'none';
+  });
+}
+function switchSTab(name, el) {
+  document.querySelectorAll('.s-tab').forEach(t => {
+    t.style.color = '#aaa';
+    t.style.fontWeight = '500';
+    t.style.borderBottom = '2px solid transparent';
+  });
+  el.style.color = '#1a1a1a';
+  el.style.fontWeight = '600';
+  el.style.borderBottom = '2px solid #1a1a1a';
+}
+
+/* ── 히어로 롤링 배너 ── */
+let heroIdx = 0;
+const HERO_TOTAL = 4;
+function goSlide(n) {
+  heroIdx = (n + HERO_TOTAL) % HERO_TOTAL;
+  document.getElementById('hero-track').style.transform = `translateX(-${heroIdx * 100}%)`;
+  document.querySelectorAll('.hero-dot').forEach((d, i) => d.classList.toggle('active', i === heroIdx));
+  document.getElementById('hero-cur').textContent = heroIdx + 1;
+}
+setInterval(() => goSlide(heroIdx + 1), 4200);
+
+// 초기 렌더
+selectPurpose('기념일', document.querySelector('.purpose-chip.sel'));
+
+function toggleOffer() {
+  const body = document.getElementById('offer-body');
+  const icon = document.getElementById('offer-icon');
+  const isOpen = body.style.display !== 'none';
+  body.style.display = isOpen ? 'none' : 'flex';
+  icon.style.transform = isOpen ? '' : 'rotate(180deg)';
+}
+</script>
+</body>
+</html>
