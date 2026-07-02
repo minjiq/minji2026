@@ -587,7 +587,7 @@ body{background:#e8e5e0;font-family:-apple-system,'Pretendard','Apple SD Gothic 
     <div class="step-label">호텔 선택</div>
   </button>
   <div class="step-line" id="line1"></div>
-  <button class="sub-tab" id="step2" onclick="openOptionSheet()">
+  <button class="sub-tab" id="step2" style="pointer-events:none">
     <div class="step-circle">2</div>
     <div class="step-label">옵션 추가</div>
   </button>
@@ -648,7 +648,7 @@ body{background:#e8e5e0;font-family:-apple-system,'Pretendard','Apple SD Gothic 
             <div style="font-size:17px;font-weight:700;color:#c9923a">245,000원<span style="font-size:12px;font-weight:500">/박</span></div>
             <div style="font-size:11px;color:#888;margin-top:1px">1,960P 적립 예정</div>
           </div>
-          <div class="gold-btn" style="width:auto;padding:10px 20px;font-size:13px" onclick="openOptionSheet()">선택</div>
+          <div class="gold-btn" style="width:auto;padding:10px 20px;font-size:13px" onclick="selectRoom()">선택</div>
         </div>
       </div>
     </div>
@@ -673,7 +673,7 @@ body{background:#e8e5e0;font-family:-apple-system,'Pretendard','Apple SD Gothic 
             <div style="font-size:17px;font-weight:700;color:#c9923a">345,000원<span style="font-size:12px;font-weight:500">/박</span></div>
             <div style="font-size:11px;color:#888;margin-top:1px">2,760P 적립 예정</div>
           </div>
-          <div class="gold-btn" style="width:auto;padding:10px 20px;font-size:13px" onclick="openOptionSheet()">선택</div>
+          <div class="gold-btn" style="width:auto;padding:10px 20px;font-size:13px" onclick="selectRoom()">선택</div>
         </div>
       </div>
     </div>
@@ -733,7 +733,7 @@ body{background:#e8e5e0;font-family:-apple-system,'Pretendard','Apple SD Gothic 
           <div style="font-size:11px;color:#c9923a;font-weight:600;margin-bottom:3px">파인다이닝 · 미쉐린</div>
           <div style="font-size:15px;font-weight:700;color:#1a1a1a;margin-bottom:4px">르 뚜르</div>
           <div style="font-size:12px;color:#888;margin-bottom:10px">프렌치 퀴진 · 런치 12:00~14:00 · 디너 18:00~22:00</div>
-          <div class="gold-btn" style="font-size:13px;padding:10px" onclick="openOptionSheet()">예약하기</div>
+          <div class="gold-btn" style="font-size:13px;padding:10px" onclick="selectRoom()">예약하기</div>
         </div>
       </div>
       <div style="border:1px solid #e8e3d8;border-radius:14px;overflow:hidden">
@@ -754,6 +754,101 @@ body{background:#e8e5e0;font-family:-apple-system,'Pretendard','Apple SD Gothic 
     <div class="bnav-center"><div class="bnav-circle" onclick="show('search', document.querySelectorAll('.nav-btn')[1])"><i class="ti ti-calendar-search" style="font-size:22px"></i><span>예약</span></div></div>
     <div class="bnav-item"><i class="ti ti-shopping-bag" style="font-size:24px"></i>이샵</div>
     <div class="bnav-item" onclick="show('mypage', document.querySelectorAll('.nav-btn')[5])"><i class="ti ti-user" style="font-size:24px"></i>MY</div>
+  </div>
+
+  <!-- ── 패키지 옵션 바텀시트 ── -->
+  <div id="option-overlay" style="position:absolute;inset:0;z-index:300;pointer-events:none;opacity:0;transition:opacity 0.25s">
+    <div style="position:absolute;inset:0;background:rgba(0,0,0,0.45)" onclick="closeOptionSheet()"></div>
+    <div id="option-sheet" style="position:absolute;bottom:0;left:0;right:0;background:#fff;border-radius:24px 24px 0 0;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.22,1,0.36,1);display:flex;flex-direction:column;max-height:88%">
+      <!-- 핸들 -->
+      <div style="display:flex;justify-content:center;padding:12px 0 4px;flex-shrink:0">
+        <div style="width:36px;height:4px;background:#e0dbd0;border-radius:4px"></div>
+      </div>
+      <!-- 헤더 -->
+      <div style="padding:4px 18px 14px;flex-shrink:0">
+        <div style="font-size:12px;color:#c9923a;font-weight:600;margin-bottom:3px">Signature Spa Stay</div>
+        <div style="font-size:18px;font-weight:700;color:#1a1a1a">나만의 완벽한 하루를<br>완성하세요</div>
+      </div>
+      <!-- 스크롤 영역 -->
+      <div style="overflow-y:auto;flex:1;padding:0 18px 12px">
+        <!-- 패키지 요약 카드 -->
+        <div style="background:#fdf8f0;border:1.5px solid #e8d9b8;border-radius:14px;padding:14px 16px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div style="font-size:14px;font-weight:700;color:#1a1a1a;margin-bottom:3px">Signature Spa Stay</div>
+            <div style="font-size:12px;color:#888">그랜드 디럭스 킹룸 · 스파 90분 · 조식 2인</div>
+          </div>
+          <div style="font-size:16px;font-weight:700;color:#c9923a;white-space:nowrap;margin-left:10px">442,000원</div>
+        </div>
+        <!-- 스파 업그레이드 (좌우 버튼) -->
+        <div style="font-size:13px;font-weight:700;color:#888;margin-bottom:10px">스파 업그레이드 선택</div>
+        <div style="display:flex;gap:10px;margin-bottom:20px">
+          <div id="opt-spa-basic" onclick="selectSpa('basic')" style="flex:1;border:1.5px solid #e8e3d8;border-radius:12px;padding:14px 12px;text-align:center;cursor:pointer;transition:all 0.18s">
+            <div style="font-size:14px;font-weight:600;color:#1a1a1a;margin-bottom:3px">시그니처 90분</div>
+            <div style="font-size:12px;color:#888">패키지 포함</div>
+          </div>
+          <div id="opt-spa-premium" onclick="selectSpa('premium')" style="flex:1;border:1.5px solid #e8e3d8;border-radius:12px;padding:14px 12px;text-align:center;cursor:pointer;transition:all 0.18s">
+            <div style="font-size:14px;font-weight:600;color:#1a1a1a;margin-bottom:3px">프리미엄 120분</div>
+            <div style="font-size:12px;color:#c9923a;font-weight:600">+38,000원</div>
+          </div>
+        </div>
+        <!-- 추가 옵션 (토글 리스트) -->
+        <!-- 조식 -->
+        <div style="display:flex;align-items:center;gap:12px;padding:14px 0;border-top:1px solid #f0ede8">
+          <div style="width:52px;height:52px;background:#f5f0e8;border-radius:10px;flex-shrink:0"></div>
+          <div style="flex:1">
+            <div style="font-size:14px;font-weight:600;color:#1a1a1a">조식 2인 포함</div>
+            <div style="font-size:12px;color:#888;margin-top:2px">패키지에 이미 포함</div>
+          </div>
+          <div id="opt-breakfast-toggle" style="width:44px;height:26px;border-radius:13px;background:#c9923a;position:relative;flex-shrink:0;cursor:default">
+            <div style="position:absolute;right:3px;top:3px;width:20px;height:20px;border-radius:50%;background:#fff"></div>
+          </div>
+        </div>
+        <!-- 버블 배스 -->
+        <div style="display:flex;align-items:center;gap:12px;padding:14px 0;border-top:1px solid #f0ede8;cursor:pointer" onclick="toggleOpt('bubble')">
+          <div style="width:52px;height:52px;background:#f5f0e8;border-radius:10px;flex-shrink:0"></div>
+          <div style="flex:1">
+            <div style="font-size:14px;font-weight:600;color:#1a1a1a">인룸 버블 배스 세팅</div>
+            <div style="font-size:12px;color:#c9923a;font-weight:600;margin-top:2px">+28,000원</div>
+          </div>
+          <div id="opt-bubble-toggle" style="width:44px;height:26px;border-radius:13px;background:#e0dbd0;position:relative;flex-shrink:0;transition:background 0.2s">
+            <div style="position:absolute;left:3px;top:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:left 0.2s" id="opt-bubble-knob"></div>
+          </div>
+        </div>
+        <!-- 웰컴 플라워 -->
+        <div style="display:flex;align-items:center;gap:12px;padding:14px 0;border-top:1px solid #f0ede8;cursor:pointer" onclick="toggleOpt('flower')">
+          <div style="width:52px;height:52px;background:#f5f0e8;border-radius:10px;flex-shrink:0"></div>
+          <div style="flex:1">
+            <div style="font-size:14px;font-weight:600;color:#1a1a1a">웰컴 플라워 & 과일 플레이트</div>
+            <div style="font-size:12px;color:#c9923a;font-weight:600;margin-top:2px">+45,000원</div>
+          </div>
+          <div id="opt-flower-toggle" style="width:44px;height:26px;border-radius:13px;background:#e0dbd0;position:relative;flex-shrink:0;transition:background 0.2s">
+            <div style="position:absolute;left:3px;top:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:left 0.2s" id="opt-flower-knob"></div>
+          </div>
+        </div>
+        <!-- 풀사이드뷰 -->
+        <div style="display:flex;align-items:center;gap:12px;padding:14px 0;border-top:1px solid #f0ede8;cursor:pointer" onclick="toggleOpt('pool')">
+          <div style="width:52px;height:52px;background:#f5f0e8;border-radius:10px;flex-shrink:0"></div>
+          <div style="flex:1">
+            <div style="font-size:14px;font-weight:600;color:#1a1a1a">풀사이드뷰 배정 요청</div>
+            <div style="font-size:12px;color:#888;margin-top:2px">자사 채널 독점 · 무료</div>
+          </div>
+          <div id="opt-pool-toggle" style="width:44px;height:26px;border-radius:13px;background:#e0dbd0;position:relative;flex-shrink:0;transition:background 0.2s">
+            <div style="position:absolute;left:3px;top:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:left 0.2s" id="opt-pool-knob"></div>
+          </div>
+        </div>
+      </div>
+      <!-- 하단 고정: 합계 + 버튼 -->
+      <div style="flex-shrink:0;padding:14px 18px 28px;border-top:1px solid #f0ede8;background:#fff">
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:14px">
+          <div>
+            <div style="font-size:12px;color:#888;margin-bottom:2px">현재 합계</div>
+            <div id="opt-total" style="font-size:24px;font-weight:700;color:#1a1a1a">442,000원</div>
+          </div>
+          <div id="opt-extra-desc" style="text-align:right;font-size:12px;color:#888;line-height:1.6">기본 442,000원</div>
+        </div>
+        <div class="gold-btn" onclick="confirmOption()">옵션 확정하고 결제하기</div>
+      </div>
+    </div>
   </div>
 </div>
 </div>
@@ -1327,23 +1422,21 @@ function showSub(id, btn) {
   });
 }
 
+/* 객실 선택 → 바로 결제 */
+function selectRoom() {
+  setStep(2); // step1 done, step3 active (결제)
+  showSub('r-pay', document.getElementById('step3'));
+}
+
+/* 패키지 선택 → 옵션 시트 */
 function openOptionSheet() {
   const ov = document.getElementById('option-overlay');
   const sh = document.getElementById('option-sheet');
   ov.style.pointerEvents = 'auto';
   ov.style.opacity = '1';
   sh.style.transform = 'translateY(0)';
-  // step2 활성화
-  ['step1','step2','step3','step4'].forEach((sid, i) => {
-    const el = document.getElementById(sid);
-    if (!el) return;
-    el.classList.remove('active','done');
-    if (i < 1) el.classList.add('done');
-    else if (i === 1) el.classList.add('active');
-  });
-  ['line1','line2','line3'].forEach((lid, i) => {
-    document.getElementById(lid)?.classList.toggle('done', i < 1);
-  });
+  setStep(1); // step1 done, step2 active
+  resetOptState();
 }
 function closeOptionSheet() {
   const ov = document.getElementById('option-overlay');
@@ -1351,6 +1444,75 @@ function closeOptionSheet() {
   ov.style.opacity = '0';
   sh.style.transform = 'translateY(100%)';
   setTimeout(() => { ov.style.pointerEvents = 'none'; }, 360);
+}
+function confirmOption() {
+  closeOptionSheet();
+  setStep(2); // step2 done, step3 active
+  showSub('r-pay', document.getElementById('step3'));
+}
+
+/* step 진행 상태 설정: doneUntil = 완료된 마지막 step index (0-based) */
+function setStep(doneUntil) {
+  ['step1','step2','step3','step4'].forEach((sid, i) => {
+    const el = document.getElementById(sid);
+    if (!el) return;
+    el.classList.remove('active','done');
+    if (i < doneUntil) el.classList.add('done');
+    else if (i === doneUntil) el.classList.add('active');
+  });
+  ['line1','line2','line3'].forEach((lid, i) => {
+    document.getElementById(lid)?.classList.toggle('done', i < doneUntil);
+  });
+}
+
+/* 옵션 시트 상태 */
+const optState = { spa: 'basic', bubble: false, flower: false, pool: false };
+
+function resetOptState() {
+  optState.spa = 'basic'; optState.bubble = false; optState.flower = false; optState.pool = false;
+  selectSpa('basic');
+  ['bubble','flower','pool'].forEach(k => setToggle(k, false));
+  updateOptTotal();
+}
+function selectSpa(type) {
+  optState.spa = type;
+  ['basic','premium'].forEach(t => {
+    const el = document.getElementById('opt-spa-' + t);
+    if (!el) return;
+    const on = t === type;
+    el.style.borderColor = on ? '#c9923a' : '#e8e3d8';
+    el.style.background = on ? '#fdf8f0' : '#fff';
+    el.querySelector('div:first-child').style.color = on ? '#c9923a' : '#1a1a1a';
+  });
+  updateOptTotal();
+}
+function setToggle(key, on) {
+  const tog = document.getElementById('opt-' + key + '-toggle');
+  const knob = document.getElementById('opt-' + key + '-knob');
+  if (tog) tog.style.background = on ? '#c9923a' : '#e0dbd0';
+  if (knob) knob.style.left = on ? '21px' : '3px';
+}
+function toggleOpt(key) {
+  optState[key] = !optState[key];
+  setToggle(key, optState[key]);
+  updateOptTotal();
+}
+function updateOptTotal() {
+  let extra = 0;
+  if (optState.spa === 'premium') extra += 38000;
+  if (optState.bubble) extra += 28000;
+  if (optState.flower) extra += 45000;
+  const base = 442000;
+  const total = base + extra;
+  document.getElementById('opt-total').textContent = total.toLocaleString() + '원';
+  const desc = document.getElementById('opt-extra-desc');
+  if (desc) {
+    let lines = '기본 442,000원';
+    if (optState.spa === 'premium') lines += '<br>+ 스파 업그레이드 38,000원';
+    if (optState.bubble) lines += '<br>+ 버블 배스 28,000원';
+    if (optState.flower) lines += '<br>+ 웰컴 플라워 45,000원';
+    desc.innerHTML = lines;
+  }
 }
 
 /* ── 목적별 데이터 ── */
